@@ -1,23 +1,24 @@
 /*
     case for the Latency Measure device
 
-    (c) 2020 by Christian Lorenz
+	(c) 2020 by Christian.Lorenz@gromeck.de
 
-    TODO
-    [x] Löcher für Buttons
-    [x] Buttons mit Pins
-    [x] LED-Aufnahme
-    [x] Aufnahme für Phototransistor
-        [x] für Saugnapf
-        [x] zum Hängen
-    [x] PCB-Aufnahme
-    [x] Sensor-Port (Cinch)
-    [x] USB-Port
-    [x] Verschlussmechanismus
-        [x] Border
-        [x] Stifte + Schrauben oder Schnapper
-    [ ] PCB-Dummy + Schalter + Arduino + Cinch-Buchse
-    [ ] Display-Dummy
+
+	This file is part of LatencyMeasure.
+
+    LatencyMeasure is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    LatencyMeasure is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with LatencyMeasure.  If not, see <https://www.gnu.org/licenses/>.
+
 */
 
 // increase the number of faces to make thinks smoother
