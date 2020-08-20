@@ -18,11 +18,15 @@ The micro controller is capable to deliver a resulotion of 1 ms.
 In this directory you will find a 3D model of an enclosure for the device, as well as a sensor mount to hang on the screen.
 These models are designed with [OpenSCAD](https://www.openscad.org/). Use the latest version of OpenSCAD (nightly build).
 
+![Case](Ressources/Images/LatencyMeasure-Case.png)
+
 ### [Circuit](Circuit/)
 
 The circuit around the micro controller is documented here.
 The circuit is designed with [KiCad](https://kicad-pcb.org/).
 A PDF version is included.
+
+![Curcuit](Ressources/Images/LatencyMeasure-Circuit.png)
 
 ### [LatencyMeasure](LatencyMeasure/)
 
@@ -31,8 +35,20 @@ This is the sketch for the micro controller. Use the [ArduinoIDE](https://www.ar
 ### [TestClient](TestClient/)
 
 This directory includes different test client supporting different setups like
- - a [HTML web application](TestClient/HTML/) to be run in a web browser,
+ - an [HTML web application](TestClient/HTML/) to be run in a web browser,
+
+   ![Screenshot-TestClient-HTML](Ressources/Screenshots/Screenshot-TestClient-HTML.png)
+   
  - a [text-based application](TestClient/ncurses/) based on [NCURSES](https://invisible-island.net/ncurses/announce.html) written in C, and
+ 
+   ![Screenshot-TestClient-ncurses](Ressources/Screenshots/Screenshot-TestClient-ncurses.png)
+   
  - a [graphical application](TestClient/Qt4/) based on [Qt](https://www.qt.io/) written in C++.
+ 
+   ![Screenshot-TestClient-Qt4](Ressources/Screenshots/Screenshot-TestClient-Qt4.png)
 
 All test clients support the same functionality.
+
+### [Ressources](Ressources/)
+
+This directory holds images and screenshots.
