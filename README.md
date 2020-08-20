@@ -13,26 +13,26 @@ The micro controller is capable to deliver a resulotion of 1 ms.
 
 ## What is in this respository?
 
-### Case
+### [Case](Case/)
 
 In this directory you will find a 3D model of an enclosure for the device, as well as a sensor mount to hang on the screen.
 These models are designed with [OpenSCAD](https://www.openscad.org/). Use the latest version of OpenSCAD (nightly build).
 
-### Circuit
+### [Circuit](Circuit/)
 
 The circuit around the micro controller is documented here.
 The circuit is designed with [KiCad](https://kicad-pcb.org/).
 A PDF version is included.
 
-### LatencyMeasure
+### [LatencyMeasure](LatencyMeasure/)
 
 This is the sketch for the micro controller. Use the [ArduinoIDE](https://www.arduino.cc/en/main/software) to compile and upload in the micro controller.
 
-### TestClient
+### [TestClient](TestClient/)
 
 This directory includes different test client supporting different setups like
- - a HTML web client to be run in a web browser,
- - an [NCURSES](https://invisible-island.net/ncurses/announce.html) application written in C, and
- - [Qt](https://www.qt.io/) application written in C++.
+ - a [HTML web application](TestClient/HTML/) to be run in a web browser,
+ - a [text-based application](TestClient/ncurses/) based on [NCURSES](https://invisible-island.net/ncurses/announce.html) written in C, and
+ - a [graphical application](TestClient/Qt/) based on [Qt](https://www.qt.io/) written in C++.
 
 All test clients support the same functionality.
