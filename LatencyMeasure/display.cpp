@@ -1,25 +1,25 @@
 /*
-    LatencyMeasure
-
-    (c) 2020 Christian.Lorenz@gromeck.de
-
-    module to handle the display
-
-
-	This file is part of LatencyMeasure.
-
-    LatencyMeasure is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    LatencyMeasure is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with LatencyMeasure.  If not, see <https://www.gnu.org/licenses/>.
+  LatencyMeasure
+  
+  (c) 2020 Christian.Lorenz@gromeck.de
+  
+  module to handle the display
+  
+  
+  This file is part of LatencyMeasure.
+  
+  LatencyMeasure is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  LatencyMeasure is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with LatencyMeasure.  If not, see <https://www.gnu.org/licenses/>.
 
 */
 #include "display.h"
@@ -34,7 +34,7 @@ void display_init(void)
 {
   // Address 0x3C for 128x32
   if (!_display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    LogMsg("OLED SSD1306 allocation failed -- aborting");
+    DbgMsg("OLED SSD1306 allocation failed -- aborting");
     for (;;);
   }
 
@@ -122,15 +122,6 @@ void display_set_footer(const char *fmt, ...)
     _footer[0] = '\0';
 }
 
-void display_menu(const char *opt1, const char *opt2)
-{
-  display_set_footer("%c %s   %c %s",
-                     (opt1) ? DISPLAY_ARROW_DOWN : ' ',
-                     (opt1) ? opt1 : "",
-                     (opt2) ? DISPLAY_ARROW_RIGHT : ' ',
-                     (opt2) ? opt2 : "");
-}
-
 void display_flush(void)
 {
   _display.clearDisplay();
@@ -174,3 +165,47 @@ void display_flush(void)
 
   _display.display();
 }
+
+/*
+ * print the menu & flush
+ */
+void display_menu(const char *opt1, const char *opt2)
+{
+  display_set_footer("%c %s   %c %s",
+                     (opt1) ? DISPLAY_ARROW_DOWN : ' ',
+                     (opt1) ? opt1 : "",
+                     (opt2) ? DISPLAY_ARROW_RIGHT : ' ',
+                     (opt2) ? opt2 : "");
+  display_flush();
+}
+
+#if SCREENSHOT
+/*
+ * dump the display a a PNM bitmap (P1)
+ */
+void display_dump_bitmap(void)
+{
+  Serial.begin(115000);
+  delay(1000);
+
+  /*
+   * write the header
+   */
+  Serial.println("P1");
+  Serial.print(SCREEN_WIDTH);
+  Serial.print(" ");
+  Serial.println(SCREEN_HEIGHT);
+  for (int y = 0;y < SCREEN_HEIGHT;y++) {
+    for (int x = 0;x < SCREEN_WIDTH;x++) {
+      Serial.print(_display.getPixel(x,y) ? 0 : 1);
+      Serial.print(" ");
+    }
+    Serial.println();
+  }
+  Serial.println("# EOF");
+  Serial.end();
+}
+
+#endif
+
+/**/

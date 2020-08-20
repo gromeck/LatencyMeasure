@@ -1,34 +1,34 @@
 /*
-    LatencyMeasure
-
-    (c) 2020 Christian.Lorenz@gromeck.de
-
-    This sketch uses an Arduino device to send HID events via USB keyboard
-    resp. mouse to a PC/workstation. This device also uses a sensor to detect
-    a reaction on the PC/workstation screen.
-    The time between the HID event and the reaction on the screen is the
-    HMI latency on that PC/workstation.
-
-    sime simple programs has to used on the PC/workstation to react on the
-    HID device and switch a detectable field from white to black.
-    Mulitple implementation (eg. HTML, Qt) are available in this software
-    distribution.
-
-
-	This file is part of LatencyMeasure.
-
-    LatencyMeasure is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    LatencyMeasure is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with LatencyMeasure.  If not, see <https://www.gnu.org/licenses/>.
+  LatencyMeasure
+  
+  (c) 2020 Christian.Lorenz@gromeck.de
+  
+  This sketch uses an Arduino device to send HID events via USB keyboard
+  resp. mouse to a PC/workstation. This device also uses a sensor to detect
+  a reaction on the PC/workstation screen.
+  The time between the HID event and the reaction on the screen is the
+  HMI latency on that PC/workstation.
+  
+  sime simple programs has to used on the PC/workstation to react on the
+  HID device and switch a detectable field from white to black.
+  Mulitple implementation (eg. HTML, Qt) are available in this software
+  distribution.
+  
+  
+  This file is part of LatencyMeasure.
+  
+  LatencyMeasure is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  LatencyMeasure is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with LatencyMeasure.  If not, see <https://www.gnu.org/licenses/>.
 
 */
 #include "common.h"
@@ -64,7 +64,8 @@ void setup()
      init the serial interface
   */
   delay(1000);
-  Serial.begin(115000);
+  if (DBG)
+    Serial.begin(115000);
   DbgMsg(TITLE ": starting up");
 
   /*
@@ -82,9 +83,9 @@ void setup()
   /*
   ** configure the buttons
   */
-  button_init(2);
-  button_add(PIN_IN_BTNMODE, -1);
-  button_add(PIN_IN_BTNOK, -1);
+  button_init(3);
+  button_add(PIN_IN_BTNMODE);
+  button_add(PIN_IN_BTNOK);
 
   /*
   ** configure the trigger
@@ -102,13 +103,10 @@ void setup()
 }
 
 /*
-**  continous loop
+**  wait for user input
 */
 void loop()
 {
-  /*
-     switch the modes
-  */
   switch ((_mode < 0) ? 0 : button_wait()) {
     case 0:
       /*
@@ -121,7 +119,6 @@ void loop()
       display_set_header("Menu");
       display_set_content(_main_menu[_mode].title);
       display_menu("NEXT", "OK");
-      display_flush();
       break;
     case 1:
       /*

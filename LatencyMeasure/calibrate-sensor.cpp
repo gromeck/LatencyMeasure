@@ -1,25 +1,25 @@
 /*
-    LatencyMeasure
-
-    (c) 2020 Christian.Lorenz@gromeck.de
-
-    module to handle the sensor calibration
-
-
-	This file is part of LatencyMeasure.
-
-    LatencyMeasure is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    LatencyMeasure is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with LatencyMeasure.  If not, see <https://www.gnu.org/licenses/>.
+  LatencyMeasure
+  
+  (c) 2020 Christian.Lorenz@gromeck.de
+  
+  module to handle the sensor calibration
+  
+  
+  This file is part of LatencyMeasure.
+  
+  LatencyMeasure is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  LatencyMeasure is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with LatencyMeasure.  If not, see <https://www.gnu.org/licenses/>.
 
 */
 #include "calibrate-sensor.h"
@@ -28,12 +28,11 @@ void calibrate_sensor(void)
 {
   display_set_content("Place sensor over\ndark and bright areas");
   display_menu("MENU", "OK");
-  display_flush();
+
   if (button_wait() == 0)
     return;
 
   display_menu("EXIT", NULL);
-  display_flush();
 
   do {
     /*
@@ -43,7 +42,7 @@ void calibrate_sensor(void)
     int uin = analogRead(PIN_IN_ANALOG_UIN);
     int uref = analogRead(PIN_IN_ANALOG_UREF);
 
-    LogMsg("pin=%d  state=%d  uin=%d  uref=%d", digitalRead(PIN_IN_TRIGGER), state, uin, uref);
+    DbgMsg("pin=%d  state=%d  uin=%d  uref=%d", digitalRead(PIN_IN_TRIGGER), state, uin, uref);
 
     /*
        show the current values to let the user calibrate the device Uref

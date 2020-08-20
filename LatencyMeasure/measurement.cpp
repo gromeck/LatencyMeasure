@@ -1,25 +1,25 @@
 /*
-    LatencyMeasure
-
-    (c) 2020 Christian.Lorenz@gromeck.de
-
-    module to handle the measurement
-
-
-	This file is part of LatencyMeasure.
-
-    LatencyMeasure is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    LatencyMeasure is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with LatencyMeasure.  If not, see <https://www.gnu.org/licenses/>.
+  LatencyMeasure
+  
+  (c) 2020 Christian.Lorenz@gromeck.de
+  
+  module to handle the measurement
+  
+  
+  This file is part of LatencyMeasure.
+  
+  LatencyMeasure is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  LatencyMeasure is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with LatencyMeasure.  If not, see <https://www.gnu.org/licenses/>.
 
 */
 #include "measurement.h"
@@ -37,7 +37,6 @@ void measurement_measure(void)
 
     display_set_content("Start test client and\nsetup sensor");
     display_menu("MENU", "OK");
-    display_flush();
     if (button_wait() == 0)
       return;
 
@@ -144,6 +143,5 @@ void measurement_measure(void)
     }
 
     display_menu("MENU", "REPEAT");
-    display_flush();
   } while (button_wait() == 1);
 }/**/
