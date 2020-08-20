@@ -27,12 +27,12 @@ $fn = 50;
 generate_lower_shell = true;
 generate_upper_shell = true;
 generate_buttons = true;
-generate_sensorcase = false;
-generate_sensormount = false;
+generate_sensorcase = true;
+generate_sensormount = true;
 generate_sensormount_hanger = true;
-generate_sensormount_hanger_clip_long = false;
-generate_sensormount_hanger_clip_short = false;
-generate_sensormount_hanger_clip_short_2nd = false;
+generate_sensormount_hanger_clip_long = true;
+generate_sensormount_hanger_clip_short = true;
+generate_sensormount_hanger_clip_short_2nd = true;
 
 // render text?
 use_text = false;
