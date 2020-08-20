@@ -24,6 +24,11 @@ The micro controller is capable to deliver a resulotion of 1 ms.
 The circuit around the micro controller is documented here.
 The circuit is designed with [KiCad](https://kicad-pcb.org/).
 A PDF version is included.
+The micro controller is a SparkFun Micro Pro 3.3V @ 8MHz. This controller is capable to work as a HID device (mouse or keyboard).
+The photo transistor SFH300 (Note: don't use the infrared versions) is used the sensor for the screen. The signal from the photo transistor and a reference voltage are the inputs for the used OpAmp LM393. This two inputs are also used as analog inputs, to allow the user an easy calibration of the sensor.
+The three buttons are used for the navigation of the controllers application and are used as MODE, OK and RESET.
+To test the timing of the circuit, the sensor is placed over the LED and the controllers timing test is started. This confirms the resulution and the processing speed of the device.
+To display the main menu, the different pages like configuration, calibration as well as the measurment and its results, a small OLED is used with 128x32px (which is 4 rows 20 characters each).
 
 ![Curcuit](Ressources/Images/LatencyMeasure-Circuit.png)
 
