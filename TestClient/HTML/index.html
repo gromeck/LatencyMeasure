@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<meta charset="utf-8">
+	<head>
+		<title>LatencyMeasure with HTML client</title>
+		<style>
+			* {
+				padding:0;
+				margin:0;
+				border:0;
+			}
+			.box {
+				border:0px solid black;
+				padding:10px;
+			}
+			.text {
+				padding:5px;
+			}
+			button, input[type=text] {
+				margin:5px;
+				padding:3px;
+				padding-left:10px;
+				padding-right:10px;
+				width:240px;
+				border:1px solid black;
+			}
+			#latency {
+				width:220px;
+			}
+			#sensorarea {
+				margin:5px;
+				padding:3px;
+				border:1px solid black;
+				width:230px;
+				height:100px;
+				color:red;
+				background:black;
+			}
+		</style>
+		<script>
+		var _toggle = false;
+		function clickedToggleButton()
+		{
+			_toggle = !_toggle;
+			document.getElementById("sensorarea").style.backgroundColor = (_toggle) ? 'white' : 'black';
+		}
+		function clickedTriggerButton()
+		{
+			var latency = document.getElementById('latency').value;
+			//alert("latency is " + latency);
+
+			setTimeout(function(){
+					document.getElementById("sensorarea").style.backgroundColor = (!_toggle) ? 'white' : 'black';
+					setTimeout(function(){
+							document.getElementById("sensorarea").style.backgroundColor = (_toggle) ? 'white' : 'black';
+						}, 500);
+				}, latency);
+		}
+		</script>
+	</head>
+	<body>
+		<div class=box>
+			<div class=text>Latency to add [ms]:</div>
+			<input type=text class=input id=latency value="0">
+			<p>
+			<button type=button onclick="clickedToggleButton()">Toggle sensor areas background</button>
+			<p>
+			<button type=button onclick="clickedTriggerButton()">Place mouse cursor here!</button>
+			<div id=sensorarea>
+				Place sensor here!
+			</div>
+		</div>
+	</body>
+</html>

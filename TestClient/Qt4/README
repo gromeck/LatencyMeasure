@@ -1,0 +1,7 @@
+	install Qt4 development environment (as root)
+
+# apt install qt4-dev-tools
+
+	build the client software
+
+./build.sh

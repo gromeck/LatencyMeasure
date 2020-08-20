@@ -1,0 +1,27 @@
+The used board is a Sparcfun Pro Micro, 3.3V @ 8MHz
+
+PIN Breakout:
+
+https://learn.sparkfun.com/tutorials/pro-micro--fio-v3-hookup-guide/hardware-overview-pro-micro
+
+
+IRQ capable PINs are:
+
+PIN  IRQ  IRQ#
+--------------
+ 3    0   INT0
+ 2    1   INT1
+ 0    2   INT2
+ 1    3   INT3
+ 7    4   INT6
+
+
+Reset to Bootloader
+===================
+If the board can't be flashed resp. the board doesn't appear as a serial device, it might
+help to double-reset the board (pull RST two times to GND). The board will stay 8 seconds
+in the bootload.
+In this state the sketch can be uploaded.
+NOTE: it might help first to click upload in the IDE and then do the double RST.
+
+https://learn.sparkfun.com/tutorials/pro-micro--fio-v3-hookup-guide/troubleshooting-and-faq#ts-serial

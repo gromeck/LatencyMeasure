@@ -1,0 +1,5 @@
+Makefile
+moc_*.cpp
+*.o
+LatencyTest
+*.swp
