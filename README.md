@@ -1,7 +1,7 @@
 # LatencyMeasure
 A tool to measure latency from keybard or mouse input to a visual response on the screen.
 
-## Challenge?
+## Challenge
 
 If an application is used in a setup where LAN or WAN segments, technologies like X11 forwarding, VNC, RDP or simply web are involved, the latency might ends up in a poor, user experience.
 I needed a tool to measure these latencies from the human input to the visual response at the users screen.
@@ -33,6 +33,6 @@ This is the sketch for the micro controller. Use the [ArduinoIDE](https://www.ar
 This directory includes different test client supporting different setups like
  - a [HTML web application](TestClient/HTML/) to be run in a web browser,
  - a [text-based application](TestClient/ncurses/) based on [NCURSES](https://invisible-island.net/ncurses/announce.html) written in C, and
- - a [graphical application](TestClient/Qt/) based on [Qt](https://www.qt.io/) written in C++.
+ - a [graphical application](TestClient/Qt4/) based on [Qt](https://www.qt.io/) written in C++.
 
 All test clients support the same functionality.
