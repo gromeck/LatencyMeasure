@@ -1,3 +1,9 @@
+
+<div style="float:left;">
+<img src="Ressources/Photos/LatencyMeasure-Breadboard-1.jpg" height="300px">
+<img src="Ressources/Photos/LatencyMeasure-Breadboard-2.jpg" height="300px">
+</div>
+
 # LatencyMeasure
 A tool to measure latency from keybard or mouse input to a visual response on the screen.
 
@@ -13,13 +19,6 @@ The micro controller is capable to deliver a resulotion of 1 ms.
 
 ## What is in this respository?
 
-### [Case](Case/)
-
-In this directory you will find a 3D model of an enclosure for the device, as well as a sensor mount to hang on the screen.
-These models are designed with [OpenSCAD](https://www.openscad.org/). Use the latest version of OpenSCAD (nightly build).
-
-![Case](Ressources/Images/LatencyMeasure-Case.png)
-
 ### [Circuit](Circuit/)
 
 The circuit around the micro controller is documented here.
@@ -30,7 +29,7 @@ A PDF version is included.
 
 ### [LatencyMeasure](LatencyMeasure/)
 
-This is the sketch for the micro controller. Use the [ArduinoIDE](https://www.arduino.cc/en/main/software) to compile and upload in the micro controller.
+This is the sketch for the micro controller. Use the [ArduinoIDE](https://www.arduino.cc/en/main/software) to compile and upload into the micro controller.
 
 ### [TestClient](TestClient/)
 
@@ -48,6 +47,13 @@ This directory includes different test client supporting different setups like
    ![Screenshot-TestClient-Qt4](Ressources/Screenshots/Screenshot-TestClient-Qt4.png)
 
 All test clients support the same functionality.
+
+### [Case](Case/)
+
+In this directory you will find a 3D model of an enclosure for the device, as well as a sensor mount to hang on the screen.
+These models are designed with [OpenSCAD](https://www.openscad.org/). Use the latest version of OpenSCAD (nightly build).
+
+![Case](Ressources/Images/LatencyMeasure-Case.png)
 
 ### [Ressources](Ressources/)
 
