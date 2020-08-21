@@ -30,7 +30,7 @@ The three buttons are used for the navigation of the controllers application and
 To test the timing of the circuit, the sensor is placed over the LED and the controllers timing test is started. This confirms the resulution and the processing speed of the device.
 To display the main menu, the different pages like configuration, calibration as well as the measurment and its results, a small OLED is used with 128x32px (which is 4 rows 20 characters each).
 
-![Curcuit](Ressources/Images/LatencyMeasure-Circuit.png)
+![Curcuit](Circuit/LatencyMeasure.png)
 
 ### [LatencyMeasure](LatencyMeasure/)
 
@@ -58,7 +58,7 @@ All test clients support the same functionality.
 In this directory you will find a 3D model of an enclosure for the device, as well as a sensor mount to hang on the screen.
 These models are designed with [OpenSCAD](https://www.openscad.org/). Use the latest version of OpenSCAD (nightly build).
 
-![Case](Ressources/Images/LatencyMeasure-Case.png)
+![Case](Case/LatencyMeasure.png)
 
 ### [Ressources](Ressources/)
 
