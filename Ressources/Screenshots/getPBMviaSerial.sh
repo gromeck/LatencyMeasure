@@ -34,7 +34,7 @@ OUTPUT=$2
 TMPFILE=/tmp/screenshot.pbm
 FG_ORIGINAL=white
 FG_RECOLORED=cyan
-RESIZE_PCT=400%
+RESIZE_PCT=100%
 
 
 #
@@ -68,7 +68,7 @@ stty -F $SERIAL -echo
 echo "Waiting for serial data @ $SERIAL ..."
 while read -e LINE; do
 	[ "${LINE:0:1}" = "#" ] && break
-	echo -n $LINE >>$TMPFILE
+	echo $LINE >>$TMPFILE
 done <$SERIAL
 echo "Data written to file @ $TMPFILE ..."
 
