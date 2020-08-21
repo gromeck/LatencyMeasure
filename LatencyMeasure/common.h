@@ -61,7 +61,7 @@
 #define PIN_IN_BTNMODE    0
 #define PIN_IN_BTNOK      1
 #if FEATURE_SCREENSHOT
-#define PIN_IN_SCREENSHOT 5
+#define PIN_IN_SCREENSHOT 4
 #endif
 
 /*
@@ -74,7 +74,7 @@
 /*
 **  pin for the calibration LED
 */
-#define PIN_OUT_LED     4
+#define PIN_OUT_LED       5
 
 
 /*
