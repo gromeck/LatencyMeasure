@@ -29,7 +29,7 @@ The micro controller is a SparkFun Micro Pro 3.3V @ 8MHz. This controller is cap
 
 The photo transistor SFH300 (Note: don't use the infrared versions) is used as the sensor for the screen. The signal from the photo transistor and a reference voltage are the inputs for the used OpAmp LM393. These two inputs are also used as analog inputs, to allow the user an easy calibration of the sensor.
 
-The three buttons are used for the navigation of the controllers application and are used as MODE, OK and RESET.
+The buttons MODE and OK are used for the navigation of the controllers application. The RESET button does what it says.
 
 To test the timing of the circuit, the sensor is placed over the LED and the controllers timing test is started. This confirms the resulution and the processing speed of the device.
 
@@ -66,6 +66,8 @@ Here are some screenshots from the OLED of the device in use.
 <img src="Ressources/Screenshots/Screenshot-OLED-DeviceInfo-1.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-DeviceInfo-2.png" height="64px">
 </div>
+
+As a special feature, one pin of the micro controller is used to trigger a screenshot of the OLED. The display is then transfered as a [Portable BitMap file](https://en.wikipedia.org/wiki/Netpbm#File_formats) over the serial connection. There is also a script in the repository to post-process these as colorized PNG files.
 
 ### [TestClient](TestClient/)
 
