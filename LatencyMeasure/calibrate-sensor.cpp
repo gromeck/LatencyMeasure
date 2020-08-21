@@ -24,6 +24,8 @@
 */
 #include "calibrate-sensor.h"
 
+#if FEATURE_CALIBRATE_SENSOR
+
 void calibrate_sensor(void)
 {
   display_set_content("Place sensor over\ndark and bright areas");
@@ -58,4 +60,8 @@ void calibrate_sensor(void)
                         (state) ? "BRIGHT" : "DARK");
     display_flush();
   } while (button_state(NULL) < 0);
-}/**/
+}
+
+#endif
+
+/**/

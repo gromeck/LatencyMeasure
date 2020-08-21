@@ -27,10 +27,10 @@
 typedef struct _button {
   short pin_btn;
   short state;
-  unsigned int millis;
+  unsigned long timestamp;
 } BUTTON;
 
-#define __STATIC  0
+#define __STATIC  3
 
 #if __STATIC
 static BUTTON _button[__STATIC];
@@ -62,6 +62,7 @@ int button_add(int pin_btn)
 
   _button[_buttons].pin_btn = pin_btn;
   _button[_buttons].state = (digitalRead(pin_btn)) ? BUTTON_UP : BUTTON_DOWN;
+  _button[_buttons].timestamp = 0;
 
   return _buttons++;
 }
@@ -74,26 +75,21 @@ int button_state(bool *pressed_long)
   int nr = 0;
 
   for (BUTTON *button = _button; nr < _buttons; button++, nr++) {
-    //DbgMsg("checking button #%d",nr);
     int pin = digitalRead(button->pin_btn);
-    
+    unsigned long delta = millis() - button->timestamp;
+
+    //DbgMsg("checking button #%d, pin=%d",nr,pin);
+
     if (button->state == BUTTON_UP && pin == LOW) {
       /*
          button pressed
       */
       DbgMsg("button #%d pressed", nr);
       button->state = BUTTON_DOWN;
-      button->millis = millis();
+      button->timestamp = millis();
     }
 #if BUTTON_PRESSED_LONG_DIRECT
-    else if (button->state == BUTTON_WAIT4UP && pin == HIGH) {
-      /*
-         button was released
-      */
-      DbgMsg("button #%d released (we're waiting for)", nr);
-      button->state = BUTTON_UP;
-    }
-    else if (button->state == BUTTON_DOWN && pin == LOW && millis() - button->millis > BUTTON_TIME_LONG) {
+    else if (button->state == BUTTON_DOWN && pin == LOW && delta > BUTTON_TIME_LONG) {
       /*
          long button event
       */
@@ -103,6 +99,13 @@ int button_state(bool *pressed_long)
         *pressed_long = true;
       return nr;
     }
+    else if (button->state == BUTTON_WAIT4UP && pin == HIGH) {
+      /*
+         button was released
+      */
+      DbgMsg("button #%d released (we're waiting for)", nr);
+      button->state = BUTTON_UP;
+    }
 #endif
     else if (button->state == BUTTON_DOWN && pin == HIGH) {
       /*
@@ -110,19 +113,45 @@ int button_state(bool *pressed_long)
       */
       DbgMsg("button #%d released", nr);
       button->state = BUTTON_UP;
-
-      if (millis() - button->millis < BUTTON_TIME_SHORT) {  
+      
+      if (delta < BUTTON_TIME_SHORT) {  
         /*
            button pressed too short -- ignore
         */
-        DbgMsg("button #%d event: too short (%ldms) -- ignoring", nr, millis() - button->millis);
+        DbgMsg("button #%d event: too short (%lums) -- ignoring", nr, delta);
       }
       else {
         /*
            button event (long or short)
          */
-        if (pressed_long)
-          *pressed_long = (millis() - button->millis > BUTTON_TIME_LONG) ? true : false;
+        DbgMsg("button #%d event: pressed %lums", nr, delta);
+        if (pressed_long) {
+          *pressed_long = (delta > BUTTON_TIME_LONG) ? true : false;
+        }
+
+#if DEBUG
+        {
+          /*
+           * dump the button struct
+           */
+          int nr = 0;
+
+          DbgMsg("dumping buttons");
+          for (BUTTON *button = _button; nr < _buttons; button++, nr++) {
+            DbgMsg("button[%d] pin_btn=%d  state=%d  timestamp=%lums",nr,button->pin_btn,button->state,button->timestamp);
+          }
+        }
+#endif
+
+#if FEATURE_SCREENSHOT
+        if (button->pin_btn == PIN_IN_SCREENSHOT) {
+          /*
+           * dump the display & forget about this key event
+           */
+          display_dump_bitmap();
+        }
+        else
+#endif
         return nr;
       }
     }
@@ -137,22 +166,8 @@ int button_wait(void)
 {
   int btn;
 
-  do {
-    bool pressed_long = false;
+  while ((btn = button_state(NULL)) < 0)
+    ;
 
-    btn = button_state(&pressed_long);
-
-#if SCREENSHOT
-    if (btn >= 0 && pressed_long) {
-      /*
-       * any long pressed button will dump a screenshot
-       */
-      display_dump_bitmap();
-      btn = -1;
-    }
-#endif
-
-  } while (btn < 0);
-  
   return btn;
 }/**/

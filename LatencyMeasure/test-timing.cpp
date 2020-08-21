@@ -24,6 +24,8 @@
 */
 #include "test-timing.h"
 
+#if FEATURE_TEST_TIMING
+
 void test_timing(void)
 {
   do {
@@ -82,4 +84,8 @@ void test_timing(void)
     display_set_content("TIMING TEST %s", (total_failed) ? "FAILED" : "SUCCEED");
     display_menu("MENU", "REPEAT");
   } while (button_wait() == 1);
-}/**/
+}
+
+#endif
+
+/**/

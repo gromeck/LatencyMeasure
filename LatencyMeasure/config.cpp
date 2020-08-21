@@ -26,6 +26,8 @@
 
 CONFIG _config;
 
+#if FEATURE_CONFIG_MENU
+
 typedef struct {
   const char *_name;
   const int value;
@@ -106,6 +108,8 @@ static CONFIG_MENU _config_menu[] = {
   }
 };
 
+#endif
+
 /*
    read the configuration from the EEPROM
 */
@@ -136,6 +140,7 @@ void config_init(void)
   config_read();
 }
 
+#if FEATURE_CONFIG_MENU
 /*
     configuration menu
 */
@@ -218,4 +223,8 @@ void config_menu(void)
      write the configuration back to the EEPROM
   */
   config_write();
-}/**/
+}
+
+#endif
+
+/**/

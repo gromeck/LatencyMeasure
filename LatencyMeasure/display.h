@@ -77,7 +77,7 @@ void display_flush(void);
 
 void display_menu(const char *opt1, const char *opt2);
 
-#if SCREENSHOT
+#if FEATURE_SCREENSHOT
 void display_dump_bitmap(void);
 #endif
 

@@ -27,7 +27,11 @@
 
 #include "common.h"
 
+#if FEATURE_CALIBRATE_SENSOR
+
 void calibrate_sensor(void);
+
+#endif
 
 #endif
 

@@ -24,6 +24,8 @@
 */
 #include "device-info.h"
 
+#if FEATURE_DEVICE_INFO
+
 #ifdef USB_PRODUCT
 #define DEVICE_TYPE  USB_PRODUCT
 #else
@@ -47,11 +49,9 @@ void device_info(void)
       case 1:
         display_set_content("Device:\n" DEVICE_TYPE);
         break;
-#if 0
       case 2:
         display_set_content("Visit " GITHUB_URL);
         break;
-#endif
       default:
         item = -1;
     }
@@ -62,4 +62,8 @@ void device_info(void)
     }
     ++item;
   }
-}/**/
+}
+
+#endif
+
+/**/

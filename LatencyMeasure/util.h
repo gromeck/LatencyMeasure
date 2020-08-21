@@ -27,7 +27,7 @@ along with LatencyMeasure.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-#if DBG
+#if DEBUG
 void DbgMsg(const char *fmt, ...);
 #else
 #define DbgMsg(...)

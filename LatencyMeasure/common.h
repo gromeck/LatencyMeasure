@@ -25,17 +25,27 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__ 1
 
+#define SERIAL_BAUDRATE           115200
+
 /*
 **  in debug mode we produce more code and
 **  timing accuracy is bad
 */
-#define DBG             0
+#define DEBUG                     0
 
-/*
- * if enabled, all long-pressed buttons will
- * generate a screenshot via serial line als ASCII PBM
- */
-#define SCREENSHOT      0
+#if DEBUG
+#define FEATURE_CONFIG_MENU       0
+#define FEATURE_TEST_TIMING       1
+#define FEATURE_CALIBRATE_SENSOR  1
+#define FEATURE_DEVICE_INFO       1
+#define FEATURE_SCREENSHOT        1
+#else
+#define FEATURE_CONFIG_MENU       1
+#define FEATURE_TEST_TIMING       1
+#define FEATURE_CALIBRATE_SENSOR  1
+#define FEATURE_DEVICE_INFO       1
+#define FEATURE_SCREENSHOT        1
+#endif
 
 /*
 **  the title of this sketch
@@ -50,6 +60,9 @@
 */
 #define PIN_IN_BTNMODE    0
 #define PIN_IN_BTNOK      1
+#if FEATURE_SCREENSHOT
+#define PIN_IN_SCREENSHOT 5
+#endif
 
 /*
 **  pin used as the trigger input -- IRQ capable!

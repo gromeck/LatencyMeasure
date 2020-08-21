@@ -30,11 +30,14 @@ static char _header[CHARS_PER_LINE + 1];
 static char _content[CHARS_PER_LINE * 2 + 1];
 static char _footer[CHARS_PER_LINE + 1];
 
+/*
+ * init the OLED display
+ */
 void display_init(void)
 {
   // Address 0x3C for 128x32
   if (!_display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    DbgMsg("OLED SSD1306 allocation failed -- aborting");
+    DbgMsg("OLED SSD1306 allocation failed -- halting");
     for (;;);
   }
 
@@ -179,14 +182,16 @@ void display_menu(const char *opt1, const char *opt2)
   display_flush();
 }
 
-#if SCREENSHOT
+#if FEATURE_SCREENSHOT
 /*
  * dump the display a a PNM bitmap (P1)
  */
 void display_dump_bitmap(void)
 {
-  Serial.begin(115000);
-  delay(1000);
+#if !DEBUG
+  // in debug mode we will use the serial interface anyway
+  Serial.begin(SERIAL_BAUDRATE);
+#endif
 
   /*
    * write the header
@@ -202,8 +207,12 @@ void display_dump_bitmap(void)
     }
     Serial.println();
   }
-  Serial.println("# EOF");
+  Serial.println("#");
+
+#if !DEBUG
+  // in debug mode we will use the serial interface anyway
   Serial.end();
+#endif
 }
 
 #endif

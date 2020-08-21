@@ -43,10 +43,18 @@ typedef struct {
 
 static MAIN_MENU _main_menu[] = {
   { "Measurement", measurement_measure },
+#if FEATURE_CONFIG_MENU
   { "Configure", config_menu },
+#endif
+#if FEATURE_TEST_TIMING
   { "Test Timing", test_timing },
+#endif
+#if FEATURE_CALIBRATE_SENSOR
   { "Calibrate Sensor", calibrate_sensor },
+#endif
+#if FEATURE_DEVICE_INFO
   { "Device Info", device_info },
+#endif
   { NULL }
 };
 
@@ -63,10 +71,18 @@ void setup()
   /*
      init the serial interface
   */
+#if DEBUG
+  Serial.begin(SERIAL_BAUDRATE);
   delay(1000);
-  if (DBG)
-    Serial.begin(115000);
   DbgMsg(TITLE ": starting up");
+#endif
+
+  /*
+  ** configure other IO pins
+  */
+  pinMode(PIN_OUT_LED, OUTPUT);
+  analogReference(INTERNAL);
+  digitalWrite(PIN_OUT_LED, HIGH);
 
   /*
   **  get the config from the EEPROM
@@ -86,6 +102,9 @@ void setup()
   button_init(3);
   button_add(PIN_IN_BTNMODE);
   button_add(PIN_IN_BTNOK);
+#if FEATURE_SCREENSHOT
+  button_add(PIN_IN_SCREENSHOT);
+#endif
 
   /*
   ** configure the trigger
@@ -93,13 +112,11 @@ void setup()
   trigger_init(PIN_IN_TRIGGER);
 
   /*
-  ** configure other IO pins
-  */
-  pinMode(PIN_OUT_LED, OUTPUT);
-  analogReference(INTERNAL);
-
+   * almost done with init ...
+   */
   delay(2000);
   display_flush();
+  digitalWrite(PIN_OUT_LED, LOW);
 }
 
 /*

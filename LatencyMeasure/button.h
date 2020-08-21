@@ -30,9 +30,9 @@
 /*
 **	return codes for the button
 */
-#define BUTTON_WAIT4UP           -1
-#define BUTTON_DOWN               1
 #define BUTTON_UP                 0
+#define BUTTON_DOWN               1
+#define BUTTON_WAIT4UP            2
 
 /*
    if this is set, we will directly act on a long pressed

@@ -24,7 +24,7 @@
 */
 #include "util.h"
 
-#if DBG
+#if DEBUG
 
 /*
 **  log a smessage to serial
