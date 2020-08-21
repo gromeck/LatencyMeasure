@@ -37,7 +37,7 @@ To display the main menu, the different pages like configuration, calibration as
 
 ![Curcuit](Circuit/LatencyMeasure.png)
 
-### [LatencyMeasure](LatencyMeasure/)
+### [LatencyMeasure Sketch](LatencyMeasure/)
 
 This is the sketch for the micro controller. Use the [ArduinoIDE](https://www.arduino.cc/en/main/software) to compile and upload into the micro controller.
 
