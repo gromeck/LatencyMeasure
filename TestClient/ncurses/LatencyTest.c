@@ -177,7 +177,7 @@ void setup_window(int ch)
 		wclear(_sensorarea);
 		wbkgd(_sensorarea,COLOR_PAIR((_toggle) ? 3 : 2));
 		wattrset(_sensorarea,A_BOLD);
-		wprintw(_sensorarea,"Place the sensor here!");
+		wprintw(_sensorarea,"Place sensor here!");
 		wrefresh(_sensorarea);
 	}
 	refresh();
