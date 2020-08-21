@@ -41,28 +41,30 @@ To display the main menu, the different pages like configuration, calibration as
 
 This is the sketch for the micro controller. Use the [ArduinoIDE](https://www.arduino.cc/en/main/software) to compile and upload into the micro controller.
 
+Here are some screenshots from the OLED of the device in use.
+
 <div style="float:left;">
-<img src="Ressources/Screenshots/Screenshot-Sketch-Measurement-0.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-Measurement-1.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-Measurement-2.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-Configure-0.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-Configure-1.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-Configure-2.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-Configure-3.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-Configure-4.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-Configure-5.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-Configure-6.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-Configure-7.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-CalibrateSensor-0.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-CalibrateSensor-1.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-CalibrateSensor-2.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-CalibrateSensor-3.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-TestTiming-0.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-TestTiming-1.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-TestTiming-2.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-DeviceInfo-0.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-DeviceInfo-1.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-Sketch-DeviceInfo-2.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-Measurement-0.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-Measurement-1.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-Measurement-2.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-Configure-0.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-Configure-1.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-Configure-2.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-Configure-3.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-Configure-4.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-Configure-5.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-Configure-6.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-Configure-7.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-CalibrateSensor-0.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-CalibrateSensor-1.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-CalibrateSensor-2.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-CalibrateSensor-3.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-TestTiming-0.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-TestTiming-1.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-TestTiming-2.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-DeviceInfo-0.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-DeviceInfo-1.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-DeviceInfo-2.png" height="64px">
 </div>
 
 ### [TestClient](TestClient/)
