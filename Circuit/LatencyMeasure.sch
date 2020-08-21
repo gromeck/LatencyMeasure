@@ -2,12 +2,12 @@ EESchema Schematic File Version 4
 LIBS:LatencyMeasure-cache
 EELAYER 26 0
 EELAYER END
-$Descr A4 11693 8268
+$Descr User 9449 7087
 encoding utf-8
 Sheet 1 1
 Title "LatencyMeasure"
-Date "2020-07-12"
-Rev "R2"
+Date "2020-08-21"
+Rev "R3"
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -17,12 +17,12 @@ $EndDescr
 $Comp
 L Comparator:LM393 OpAmp1
 U 1 1 5F0AE553
-P 3500 2900
-F 0 "OpAmp1" H 3500 3267 50  0000 C CNN
-F 1 "LM393" H 3500 3176 50  0000 C CNN
-F 2 "" H 3500 2900 50  0001 C CNN
-F 3 "http://www.ti.com/lit/ds/symlink/lm393-n.pdf" H 3500 2900 50  0001 C CNN
-	1    3500 2900
+P 3500 3200
+F 0 "OpAmp1" H 3500 3567 50  0000 C CNN
+F 1 "LM393" H 3500 3476 50  0000 C CNN
+F 2 "" H 3500 3200 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/lm393-n.pdf" H 3500 3200 50  0001 C CNN
+	1    3500 3200
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -81,43 +81,34 @@ F 3 "~" H 5300 3800 50  0001 C CNN
 	0    1    -1   0   
 $EndComp
 Wire Wire Line
-	3200 2800 3000 2800
+	3200 3100 3000 3100
 $Comp
 L Device:R_POT_TRIM R2
 U 1 1 5F0B0FE3
-P 2600 3000
-F 0 "R2" H 2530 3046 50  0000 R CNN
-F 1 "25k" H 2530 2955 50  0000 R CNN
-F 2 "" H 2600 3000 50  0001 C CNN
-F 3 "~" H 2600 3000 50  0001 C CNN
-	1    2600 3000
+P 2600 3300
+F 0 "R2" H 2530 3346 50  0000 R CNN
+F 1 "25k" H 2530 3255 50  0000 R CNN
+F 2 "" H 2600 3300 50  0001 C CNN
+F 3 "~" H 2600 3300 50  0001 C CNN
+	1    2600 3300
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2750 3000 3100 3000
+	2750 3300 3100 3300
 Wire Wire Line
 	1950 1850 1950 1200
 Wire Wire Line
 	1950 3800 1950 4700
 Wire Wire Line
 	1950 4700 2600 4700
-Wire Wire Line
-	2600 3150 2600 4700
 Connection ~ 2600 4700
 Wire Wire Line
-	2600 4700 3400 4700
+	2600 3150 2600 1200
+Connection ~ 1950 3100
 Wire Wire Line
-	2600 2850 2600 1200
-Connection ~ 2600 1200
+	1950 3100 1950 3400
 Wire Wire Line
-	2600 1200 3400 1200
-Wire Wire Line
-	1950 1200 2600 1200
-Connection ~ 1950 2800
-Wire Wire Line
-	1950 2800 1950 3400
-Wire Wire Line
-	1950 2150 1950 2800
+	1950 2150 1950 3100
 $Comp
 L MCU_Module:Arduino_Leonardo Arduino1
 U 1 1 5F0B480C
@@ -141,7 +132,7 @@ F 3 "~" H 5850 1550 50  0001 C CNN
 	0    1    -1   0   
 $EndComp
 Wire Wire Line
-	3800 2900 3850 2900
+	3800 3200 3850 3200
 Wire Wire Line
 	4100 4000 4100 4700
 Wire Wire Line
@@ -167,15 +158,11 @@ Wire Wire Line
 Wire Wire Line
 	4700 2600 6350 2600
 Wire Wire Line
-	5300 3000 6350 3000
-Wire Wire Line
 	4700 3600 4700 2600
 Wire Wire Line
 	4100 3600 4100 2500
 Wire Wire Line
 	5300 3950 5300 4700
-Wire Wire Line
-	5300 3000 5300 3650
 Wire Wire Line
 	5650 1750 5650 4700
 Connection ~ 5650 4700
@@ -197,24 +184,20 @@ Wire Wire Line
 $Comp
 L Comparator:LM393 U1
 U 3 1 5F0C944F
-P 3500 2900
-F 0 "U1" H 3458 2946 50  0001 L CNN
-F 1 "LM393" H 3458 2900 50  0001 L TNN
-F 2 "" H 3500 2900 50  0001 C CNN
-F 3 "http://www.ti.com/lit/ds/symlink/lm393-n.pdf" H 3500 2900 50  0001 C CNN
-	3    3500 2900
+P 3500 3200
+F 0 "U1" H 3458 3246 50  0001 L CNN
+F 1 "LM393" H 3458 3200 50  0001 L TNN
+F 2 "" H 3500 3200 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/lm393-n.pdf" H 3500 3200 50  0001 C CNN
+	3    3500 3200
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3400 2600 3400 1200
+	3400 2900 3400 1200
 Wire Wire Line
-	3400 1200 3850 1200
-Wire Wire Line
-	3400 3200 3400 4700
+	3400 3500 3400 4700
 Wire Wire Line
 	3400 4700 4100 4700
-Text Notes 750  7450 0    59   ~ 0
-The Arduino sends out mouse or keyboard events via USB.\nThe test client SW running on the connected host triggers a\nchange of brightness on the display inside a reference area\nwhen the mouse or keyboard event is received.\nThe phototransistor T1 scans the brightness of that reference\narea on the display. The signal is passed thru the OpAmp1\nto get a digitial signal out of the meassured value.\nR2 is used to calibrate the switching level.\nThe Arduino meassures the time between the USB event and\nthe received trigger on the display.\nThe LED1 is used for timing calibration. Buttons SW1 and\nSW2 are used to navigate thru the software running on the\nArduino. Options and results are displayed on OLED1.
 $Comp
 L Device:R R3
 U 1 1 5F0EA750
@@ -234,10 +217,9 @@ Connection ~ 3850 1200
 Wire Wire Line
 	3850 1200 5300 1200
 Wire Wire Line
-	3850 2150 3850 2900
-Connection ~ 3850 2900
+	3850 2150 3850 3200
 Wire Wire Line
-	3850 2900 6350 2900
+	3850 3200 6350 3200
 Wire Wire Line
 	5300 1200 6950 1200
 Wire Wire Line
@@ -262,7 +244,6 @@ Wire Wire Line
 Wire Wire Line
 	8000 4700 6850 4700
 Connection ~ 6850 4700
-Connection ~ 3400 1200
 Connection ~ 3400 4700
 Wire Wire Line
 	7350 3100 7700 3100
@@ -271,19 +252,36 @@ Wire Wire Line
 Wire Wire Line
 	7700 4500 3000 4500
 Wire Wire Line
-	3000 4500 3000 2800
-Connection ~ 3000 2800
+	3000 4500 3000 3100
 Wire Wire Line
-	3000 2800 1950 2800
+	3000 3100 1950 3100
 Wire Wire Line
 	7350 3200 7600 3200
 Wire Wire Line
 	7600 3200 7600 4400
 Wire Wire Line
 	7600 4400 3100 4400
+Connection ~ 3100 3300
 Wire Wire Line
-	3100 4400 3100 3000
-Connection ~ 3100 3000
+	3100 3300 3200 3300
 Wire Wire Line
-	3100 3000 3200 3000
+	5300 2900 5300 3650
+Wire Wire Line
+	5300 2900 6350 2900
+Connection ~ 3000 3100
+Wire Wire Line
+	3100 4400 3100 3300
+Connection ~ 3850 3200
+Wire Wire Line
+	2600 3450 2600 4700
+Wire Wire Line
+	1950 1200 2600 1200
+Connection ~ 3400 1200
+Wire Wire Line
+	3400 1200 3850 1200
+Connection ~ 2600 1200
+Wire Wire Line
+	2600 1200 3400 1200
+Wire Wire Line
+	2600 4700 3400 4700
 $EndSCHEMATC
