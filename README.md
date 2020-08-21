@@ -46,15 +46,15 @@ This is the sketch for the micro controller. Use the [ArduinoIDE](https://www.ar
 This directory includes different test client supporting different setups like
  - an [HTML web application](TestClient/HTML/) to be run in a web browser,
 
-   ![Screenshot-TestClient-HTML](Ressources/Screenshots/Screenshot-TestClient-HTML.png)
+   ![Screenshot-TestClient-HTML](TestClient/HTML/Screenshot.png)
    
  - a [text-based application](TestClient/ncurses/) based on [NCURSES](https://invisible-island.net/ncurses/announce.html) written in C, and
  
-   ![Screenshot-TestClient-ncurses](Ressources/Screenshots/Screenshot-TestClient-ncurses.png)
+   ![Screenshot-TestClient-ncurses](TestClient/ncurses/Screenshot.png)
    
  - a [graphical application](TestClient/Qt4/) based on [Qt](https://www.qt.io/) written in C++.
  
-   ![Screenshot-TestClient-Qt4](Ressources/Screenshots/Screenshot-TestClient-Qt4.png)
+   ![Screenshot-TestClient-Qt4](TestClient/Qt4/Screenshot.png)
 
 All test clients support the same functionality.
 
