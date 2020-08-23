@@ -32,36 +32,27 @@
 #define DEVICE_TYPE  "<unknown>"
 #endif
 
+static const char *_device_info[] = {
+    "SW-Version:\n" __DATE__ " " __TIME__,
+    "Device:\n" DEVICE_TYPE,
+    "Visit " GITHUB_URL
+};
+#define DEVICE_INFO_ITEMS   (sizeof(_device_info) / sizeof(char *))
+
 void device_info(void)
 {
-  int item = 0;
+  bool done = false;
 
   display_menu("NEXT", "EXIT");
 
-  while (item >= 0) {
-    /*
-       wrap the config menu
-    */
-    switch (item) {
-      case 0:
-        display_set_content("SW-Version:\n" __DATE__ " " __TIME__);
-        break;
-      case 1:
-        display_set_content("Device:\n" DEVICE_TYPE);
-        break;
-      case 2:
-        display_set_content("Visit " GITHUB_URL);
-        break;
-      default:
-        item = -1;
-    }
-    if (item >= 0) {
+  do {
+    for (int item = 0;item < DEVICE_INFO_ITEMS && !done;item++) {
+      display_set_page(item + 1,DEVICE_INFO_ITEMS);
+      display_set_content(_device_info[item]);
       display_flush();
-      if (button_wait() == 1)
-        break;
+      done = (button_wait() == 1);
     }
-    ++item;
-  }
+  } while (!done);
 }
 
 #endif
