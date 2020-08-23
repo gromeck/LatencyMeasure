@@ -1,23 +1,23 @@
 /*
   LatencyMeasure
-  
+
   (c) 2020 Christian.Lorenz@gromeck.de
-  
+
   module to handle buttons
-  
-  
+
+
   This file is part of LatencyMeasure.
-  
+
   LatencyMeasure is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
-  
+
   LatencyMeasure is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with LatencyMeasure.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -113,8 +113,8 @@ int button_state(bool *pressed_long)
       */
       DbgMsg("button #%d released", nr);
       button->state = BUTTON_UP;
-      
-      if (delta < BUTTON_TIME_SHORT) {  
+
+      if (delta < BUTTON_TIME_SHORT) {
         /*
            button pressed too short -- ignore
         */
@@ -123,7 +123,7 @@ int button_state(bool *pressed_long)
       else {
         /*
            button event (long or short)
-         */
+        */
         DbgMsg("button #%d event: pressed %lums", nr, delta);
         if (pressed_long) {
           *pressed_long = (delta > BUTTON_TIME_LONG) ? true : false;
@@ -132,13 +132,13 @@ int button_state(bool *pressed_long)
 #if DEBUG
         {
           /*
-           * dump the button struct
-           */
+             dump the button struct
+          */
           int nr = 0;
 
           DbgMsg("dumping buttons");
           for (BUTTON *button = _button; nr < _buttons; button++, nr++) {
-            DbgMsg("button[%d] pin_btn=%d  state=%d  timestamp=%lums",nr,button->pin_btn,button->state,button->timestamp);
+            DbgMsg("button[%d] pin_btn=%d  state=%d  timestamp=%lums", nr, button->pin_btn, button->state, button->timestamp);
           }
         }
 #endif
@@ -146,13 +146,13 @@ int button_state(bool *pressed_long)
 #if FEATURE_SCREENSHOT
         if (button->pin_btn == PIN_IN_SCREENSHOT) {
           /*
-           * dump the display & forget about this key event
-           */
+             dump the display & forget about this key event
+          */
           display_dump_bitmap();
         }
         else
 #endif
-        return nr;
+          return nr;
       }
     }
   }
