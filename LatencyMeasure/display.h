@@ -1,23 +1,23 @@
 /*
   LatencyMeasure
-  
+
   (c) 2020 Christian.Lorenz@gromeck.de
-  
+
   display definitions and prototypes
-  
-  
+
+
   This file is part of LatencyMeasure.
-  
+
   LatencyMeasure is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
-  
+
   LatencyMeasure is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with LatencyMeasure.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -38,7 +38,9 @@
 #define SCREEN_HEIGHT   32
 #define CHAR_HEIGHT     8
 #define CHAR_WIDTH      6
+#define CHARS_PER_ROW   (SCREEN_HEIGHT / CHAR_HEIGHT)
 #define CHARS_PER_LINE  (SCREEN_WIDTH / CHAR_WIDTH)
+#define CHARS_PER_PAGE  (CHARS_PER_ROW * CHARS_PER_LINE)
 
 /*
    some definition for graphical symbols
@@ -62,12 +64,14 @@
 #endif
 
 #define DISPLAY_MIDDOT        0x07
+#define DISPLAY_SYMBAD       0x22
 
 
 void display_init(void);
 
 void display_clear(void);
 void display_set_header(const char *fmt, ...);
+void display_set_page(int page, int pages);
 void display_set_content(const char *fmt, ...);
 void display_set_footer(const char *fmt, ...);
 

@@ -1,23 +1,23 @@
 /*
   LatencyMeasure
-  
+
   (c) 2020 Christian.Lorenz@gromeck.de
-  
+
   module to handle the configuration
-  
-  
+
+
   This file is part of LatencyMeasure.
-  
+
   LatencyMeasure is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
-  
+
   LatencyMeasure is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with LatencyMeasure.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -92,7 +92,7 @@ static CONFIG_MENU _config_menu[] = {
     }
   },
   {
-    "Timer starts at",
+    "Timer start at ...",
     &_config.timer_starts_at,
     {
       { "pressed Key/Btn", KEY_PRESSED },
@@ -174,12 +174,13 @@ void config_menu(void)
         option_idx = -1;
         option_name = "<UNKNOWN>";
       }
-      display_set_content("#%d: %s\n  %c %s", item + 1, cm->_name, DISPLAY_ARROW_RIGHT, option_name);
+      display_set_content("%s\n  %c %s", cm->_name, DISPLAY_ARROW_RIGHT, option_name);
     }
     else {
       option_idx = -1;
-      display_set_content(" #%d: %s", item + 1, cm->_name);
+      display_set_content("%s", cm->_name);
     }
+    display_set_page(item + 1, sizeof(_config_menu) / sizeof(CONFIG_MENU) - 1);
     display_menu("NEXT", (cm->confref) ? "CHANGE" : "EXIT");
 
     /*

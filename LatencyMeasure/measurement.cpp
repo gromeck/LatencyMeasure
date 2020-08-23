@@ -1,23 +1,23 @@
 /*
   LatencyMeasure
-  
+
   (c) 2020 Christian.Lorenz@gromeck.de
-  
+
   module to handle the measurement
-  
-  
+
+
   This file is part of LatencyMeasure.
-  
+
   LatencyMeasure is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
-  
+
   LatencyMeasure is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with LatencyMeasure.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -57,10 +57,11 @@ void measurement_measure(void)
        loop over the measure series
     */
     for (int pass = 0; pass < _config.measure_series && button_state(NULL) < 0; pass++) {
-      char msg[20];
+      char msg[CHARS_PER_LINE + 1];
       unsigned long latency;
 
-      sprintf(msg, "HID event %d/%d", pass + 1, _config.measure_series);
+      sprintf(msg, "HID event: %s", (_config.hid_device == MOUSE) ? "Mouse" : "Keyboard");
+      display_set_page(pass + 1, _config.measure_series);
       display_set_content("%s\nwaiting ...", msg);
       display_flush();
 
