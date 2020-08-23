@@ -238,9 +238,16 @@ void display_dump_bitmap(void)
      write the header
   */
   Serial.println("P1");
+
+  Serial.print("# TITLE ");
+  Serial.print(_header);
+  Serial.print(", ");
+  Serial.println(_page);
+
   Serial.print(SCREEN_WIDTH);
   Serial.print(" ");
   Serial.println(SCREEN_HEIGHT);
+
   for (int y = 0; y < SCREEN_HEIGHT; y++) {
     for (int x = 0; x < SCREEN_WIDTH; x++) {
       Serial.print(_display.getPixel(x, y) ? 0 : 1);
@@ -248,14 +255,13 @@ void display_dump_bitmap(void)
     }
     Serial.println();
   }
-  Serial.println("#");
+  Serial.println("# EOF");
 
 #if !DEBUG
   // in debug mode we will use the serial interface anyway
   Serial.end();
 #endif
 }
-
 #endif
 
 /**/
