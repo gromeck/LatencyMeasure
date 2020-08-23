@@ -26,11 +26,11 @@
 #	along with LatencyMeasure.  If not, see <https://www.gnu.org/licenses/>.
 #
 SERIAL=$1
-OUTPUT=$2
 
 #
 #	internal settings
 #
+PREFIX="Screenshot-OLED-"
 TMPFILE=/tmp/screenshot.pbm
 FG_ORIGINAL=white
 FG_RECOLORED=cyan
@@ -42,10 +42,6 @@ RESIZE_PCT=100%
 #
 if [ ! "$SERIAL" ]; then
 	echo "*** no serial device given -- ABORTING!"
-	exit 1
-fi
-if [ ! "$OUTPUT" ]; then
-	echo "*** no target file name given -- ABORTING!"
 	exit 1
 fi
 
@@ -62,20 +58,44 @@ rm -f $TMPFILE $OUTPUT
 stty -F $SERIAL raw
 stty -F $SERIAL -echo
 
+
 #
 #	wait for transmission
 #
+TITLE=""
 echo "Waiting for serial data @ $SERIAL ..."
-while read -e LINE; do
-	[ "${LINE:0:1}" = "#" ] && break
+while read LINE; do
+	[ "${LINE:0:5}" = "# EOF" ] && break
 	echo $LINE >>$TMPFILE
 done <$SERIAL
 echo "Data written to file @ $TMPFILE ..."
 
+
 #
-#	colorize the file
+#	set a filename -- count up a postfix on duplicate
+#
+TITLE=$( grep "^# TITLE" $TMPFILE | sed -e "s/# TITLE //" )
+PAGE=$( echo $TITLE | sed -e "s/^.*, //" | sed -e "s/\/.*$//" | sed -e "s/#//" )
+TITLE=$( echo $TITLE | sed -e "s/,.*$//" | tr -s " " | tr " " "-" )
+[ $PAGE != "" ] && TITLE="$TITLE-$PAGE"
+NR=0 
+while : ; do
+	if [ $NR = 0 ]; then
+		POSTFIX=""
+	else
+		POSTFIX="($NR)"
+	fi
+	OUTPUT="$PREFIX$TITLE$POSTFIX.png"
+	[ ! -f $OUTPUT ] && break;
+	NR=$(( $NR + 1 ))
+done
+
+
+#
+#	convert and colorize the file
 #
 echo "Post-processing $TMPFILE to $OUTPUT ..."
 convert $TMPFILE -fill $FG_RECOLORED -opaque $FG_ORIGINAL -resize $RESIZE_PCT $OUTPUT
+
 
 exit 0
