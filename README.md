@@ -56,12 +56,12 @@ Here are some screenshots from the OLED of the device in use.
 <img src="Ressources/Screenshots/Screenshot-OLED-Configure-6.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Configure-7.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Menu-3.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-Test-Timing-1.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-Test-Timing-2.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-Menu-4.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Calibrate-Sensor-1.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Calibrate-Sensor-2.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Calibrate-Sensor-3.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-OLED-Menu-4.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-OLED-Test-Timing-1.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-OLED-Test-Timing-2.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Menu-5.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Device-Info-1.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Device-Info-2.png" height="64px">
