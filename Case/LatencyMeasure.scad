@@ -22,18 +22,17 @@
 */
 
 // increase the number of faces to make thinks smoother
-$fn = 50;
+$fn = 100;
 
 // what part should we generate?
-generate_lower_shell = true;
-generate_upper_shell = true;
+generate_lower_shell = false;
+generate_upper_shell = false;
 generate_buttons = true;
 generate_sensorcase = true;
 generate_sensormount = true;
-generate_sensormount_hanger = true;
-generate_sensormount_hanger_clip_long = true;
-generate_sensormount_hanger_clip_short = true;
-generate_sensormount_hanger_clip_short_2nd = true;
+generate_sensormount_clip_long = true;
+generate_sensormount_clip_short = true;
+generate_sensormount_clip_short_2nd = true;
 
 // render text?
 use_text = false;
@@ -44,7 +43,7 @@ boss_draft_rel = 1.1;
 case_edge_radius_rel = 1.5;
 slackness_screw = 0.1;
 slackness_slide = 0.2;
-slackness_snap = 0.1;
+slackness_snap = 0.2;
 text_depth = 0.1;
 title = "Latency Measure";
 font_font = "Roboto Mono:style=Bold";
@@ -145,40 +144,26 @@ sensormount_radius = sensorcase_radius + sensormount_thickness + slackness_snap;
 sensormount_cable_radius = 1.5;
 sensormount_edge_radius = 0.25;
 
-// the suction cup variant
-// this is the height of the sensor succup
-// meassured from surface agains the lower edge of the mount
-sensor_succup_thickness = 1.9;
-// this is the radius of the sensor succups mounting element
-sensor_succup_radius1 = 4;
-// this is the radius of the sensor succup itself
-sensor_succup_radius2 = 18;
-sensormount_succup_bar_length = 2 * (sensormount_radius + sensor_succup_radius2 * 2);
-sensormount_succup_bar_width = sensor_succup_radius1 * 2 + sensormount_thickness * 4;
-
 // the hanger variant
-sensormount_hanger_bar_length = 200;
-sensormount_hanger_bar_width = sensormount_radius * 2;
-sensormount_hanger_slot_width = 3.0;
-sensormount_hanger_slot_slackness = slackness_slide;
-sensormount_hanger_clip_boss_height = 10;
-sensormount_hanger_clip_hole_radius = sensormount_hanger_slot_width / 2 - slackness_screw;
-sensormount_hanger_clip_boss_radius = 3.0;
-sensormount_hanger_clip_bar_height = 30;
-sensormount_hanger_clip_bar_length = 2.5 * sensormount_hanger_clip_bar_height;
-sensormount_hanger_clip_bar_width = sensormount_hanger_bar_width;
+sensormount_bar_length = 200;
+sensormount_bar_width = sensormount_radius * 2;
+sensormount_slot_width = 3.0;
+sensormount_slot_slackness = slackness_slide;
+sensormount_clip_boss_height = 10;
+sensormount_clip_hole_radius = sensormount_slot_width / 2 - slackness_screw;
+sensormount_clip_boss_radius = 3.0;
+sensormount_clip_bar_height = 30;
+sensormount_clip_bar_length = 2.5 * sensormount_clip_bar_height;
+sensormount_clip_bar_width = sensormount_bar_width;
 
 // some dimensions depend from ones above
 sensorcase_height = sensorcase_diode_height + sensorcase_diode_gap;
-sensormount_height = max(sensorcase_height - sensorcase_thickness + sensormount_thickness,
-                            sensor_succup_thickness);
-sensormount_succupboss_height = sensormount_height + sensorcase_thickness - sensor_succup_thickness;
-
+sensormount_height = sensorcase_height - sensorcase_thickness + sensormount_thickness;
 
 echo("sensorcase_height=",sensorcase_height);
 echo("sensormount_height",sensormount_height);
-echo("sensormount_hanger_bar_length=",sensormount_hanger_bar_length);
-echo("sensormount_hanger_bar_width=",sensormount_hanger_bar_width);
+echo("sensormount_bar_length=",sensormount_bar_length);
+echo("sensormount_bar_width=",sensormount_bar_width);
 
 module make_rounded_square(length,width,thickness,roundedfront = false,roundedback = false)
 {
@@ -333,108 +318,18 @@ module make_sensorcase()
 }
 
 /*
-**  make the sensor mount for suction cups
-*/
-module make_sensormount_suction_cup()
-{
-    translate([sensormount_succup_bar_length / 2,sensormount_radius,0]) {
-        difference() {
-            union() {
-                // the body of the mount
-                cylinder(
-                    sensormount_height,
-                        sensormount_radius,
-                        sensormount_radius,
-                        center=false);
-
-                // add the bar
-                linear_extrude(sensormount_thickness)
-                    minkowski() {
-                        translate([
-                            -(sensormount_succup_bar_length - sensormount_succup_bar_width) / 2,0,0])
-                            square([
-                                sensormount_succup_bar_length - sensormount_succup_bar_width,
-                                0.0000001
-                                ],center = false);
-                        circle(sensormount_succup_bar_width / 2);
-                    }
-
-                // add the gussets
-                translate([
-                        -(sensormount_succup_bar_length - 2 * sensormount_succup_bar_width) / 2,
-                        sensormount_thickness / 2,
-                        sensormount_thickness])
-                    rotate([90,0,0])
-                        linear_extrude(sensormount_thickness)
-                            polygon([
-                                    [0,0],
-                                    [sensormount_succup_bar_length - 2 * sensormount_succup_bar_width,0],
-                                    [(sensormount_succup_bar_length - 2 * sensormount_succup_bar_width) / 2,sensormount_height]
-                            ]);
-
-                // add the mounting bosses for the succups
-                for (offset = [-1,+1])
-                    translate([offset * (sensormount_succup_bar_length - sensormount_succup_bar_width) / 2,0,0])
-                        cylinder(
-                                sensormount_succupboss_height,
-                                sensor_succup_radius1 + sensormount_thickness,
-                                sensor_succup_radius1 + sensormount_thickness,
-                                center=false);
-            }
-
-            //  make it hollow
-            translate([0,0,sensormount_thickness])
-                cylinder(
-                        sensormount_height,
-                        sensormount_radius - sensormount_thickness,
-                        sensormount_radius - sensormount_thickness,
-                        center=false);
-
-            // cut out the cable hole
-            cylinder(
-                    sensormount_thickness,
-                    sensormount_cable_radius,
-                    sensormount_cable_radius,
-                    center=false);
-
-            // cut out the mounting holes for the succups
-            for (offset = [-1,+1])
-                translate([offset * (sensormount_succup_bar_length - sensormount_succup_bar_width) / 2,0,0])
-                    cylinder(
-                            sensormount_succupboss_height,
-                            sensor_succup_radius1,
-                            sensor_succup_radius1,
-                            center=false);
-
-            // engrave the title onto the mount
-            if (use_text)
-                translate([0,0,text_depth])
-                    rotate([0,180,180])
-                        linear_extrude(text_depth)
-                            text(
-                                    title,
-                                    sensormount_succup_bar_width / 3,
-                                    font = font_font,
-                                    valign = "center",
-                                    halign = "center"
-                            );
-        }
-    }
-}
-
-/*
 **  make the sensor mount to hang on the display
 */
-module make_sensormount_hanger()
+module make_sensormount()
 {
     translate([0,sensormount_radius,0]) {
         difference() {
             union() {
                 // add the bar
-                make_rounded_square(sensormount_hanger_bar_length,sensormount_hanger_bar_width,sensormount_thickness,true,true);
+                make_rounded_square(sensormount_bar_length,sensormount_bar_width,sensormount_thickness,true,true);
 
                 // the body of the mount
-                translate([sensormount_hanger_bar_width / 2,0,0])
+                translate([sensormount_bar_width / 2,0,0])
                     cylinder(
                         sensormount_height,
                             sensormount_radius,
@@ -443,20 +338,20 @@ module make_sensormount_hanger()
 
                 // add the gussets
                 translate([
-                        sensormount_hanger_bar_length / 2 + slackness_slide,
+                        sensormount_bar_length / 2 + slackness_slide,
                         -sensormount_thickness / 2,
                         0])
                     rotate([90,0,180])
                         linear_extrude(sensormount_thickness)
                             polygon([
                                     [0,0],
-                                    [sensormount_hanger_bar_length / 2,0],
-                                    [sensormount_hanger_bar_length / 2,sensormount_height]
+                                    [sensormount_bar_length / 2,0],
+                                    [sensormount_bar_length / 2,sensormount_height]
                             ]);
             }
 
             //  make it hollow
-            translate([sensormount_hanger_bar_width / 2,0,sensormount_thickness])
+            translate([sensormount_bar_width / 2,0,sensormount_thickness])
                 cylinder(
                         sensormount_height,
                         sensormount_radius - sensormount_thickness,
@@ -464,7 +359,7 @@ module make_sensormount_hanger()
                         center=false);
 
             // cut out the cable hole
-            translate([sensormount_hanger_bar_width / 2,0,0])
+            translate([sensormount_bar_width / 2,0,0])
                 cylinder(
                         sensormount_thickness,
                         sensormount_cable_radius,
@@ -472,19 +367,19 @@ module make_sensormount_hanger()
                         center=false);
 
             // cut out the slot
-            translate([sensormount_hanger_bar_length / 2 - sensormount_hanger_bar_width / 2,0,0])
-                make_rounded_square(sensormount_hanger_bar_length / 2,
-                        sensormount_hanger_slot_width,
+            translate([sensormount_bar_length / 2 - sensormount_bar_width / 2,0,0])
+                make_rounded_square(sensormount_bar_length / 2,
+                        sensormount_slot_width,
                         sensormount_thickness,true,true);
 
             // engrave the title onto the mount
             if (use_text)
-                translate([sensormount_hanger_bar_width,0,text_depth])
+                translate([sensormount_bar_width,0,text_depth])
                     rotate([0,180,180])
                         linear_extrude(text_depth)
                             text(
                                     title,
-                                    sensormount_hanger_bar_width / 3,
+                                    sensormount_bar_width / 3,
                                     font = font_font,
                                     valign = "center",
                                     halign = "left"
@@ -493,82 +388,84 @@ module make_sensormount_hanger()
     }
 }
 
-module make_sensormount_hanger_clip()
+module make_sensormount_clip()
 {
-    translate([0,sensormount_hanger_clip_bar_width / 2 + sensormount_thickness,0]) {
+    translate([0,sensormount_clip_bar_width / 2 + sensormount_thickness,0]) {
         difference() {
             union() {
                 // add the notches
-                translate([0,sensormount_hanger_clip_bar_width / 2,0])
-                    cube([
-                        sensormount_hanger_clip_boss_height,
-                        sensormount_thickness,
-                        sensormount_thickness]);
-                translate([0,-sensormount_hanger_clip_bar_width / 2 - sensormount_thickness,0])
-                    cube([
-                        sensormount_hanger_clip_boss_height,
-                        sensormount_thickness,
-                        sensormount_thickness]);
+                # difference() {
+                    translate([0,-(sensormount_clip_bar_width + 2 * sensormount_thickness + slackness_slide) / 2,0])
+                        cube([
+                                sensormount_clip_boss_height,
+                                sensormount_clip_bar_width + 2 * sensormount_thickness + slackness_slide,
+                                sensormount_thickness]);
+                    translate([0,-(sensormount_clip_bar_width + slackness_slide) / 2,0])
+                        cube([
+                                sensormount_thickness,
+                                sensormount_clip_bar_width + slackness_slide,
+                                sensormount_thickness]);
+                }
 
-                // bluid the clip itself
+                // build the clip itself
                 translate([sensormount_thickness,0,0]) {
-                    make_rounded_square(sensormount_hanger_clip_bar_length,
-                            sensormount_hanger_clip_bar_width,
+                    make_rounded_square(sensormount_clip_bar_length,
+                            sensormount_clip_bar_width,
                             sensormount_thickness,false,true);
                     rotate([90,-90,90])
-                        make_rounded_square(sensormount_hanger_clip_bar_height,
-                                sensormount_hanger_clip_bar_width,sensormount_thickness,false,true);
+                        make_rounded_square(sensormount_clip_bar_height,
+                                sensormount_clip_bar_width,sensormount_thickness,false,true);
 
                     // add the gussets
                     translate([
-                            sensormount_hanger_clip_bar_length / 2,
+                            sensormount_clip_bar_length / 2,
                             -sensormount_thickness / 2,
                             0])
                         rotate([90,0,180])
                             linear_extrude(sensormount_thickness)
                                 polygon([
                                         [0,0],
-                                        [sensormount_hanger_clip_bar_length / 2,0],
-                                        [sensormount_hanger_clip_bar_length / 2,sensormount_hanger_clip_bar_height]
+                                        [sensormount_clip_bar_length / 2,0],
+                                        [sensormount_clip_bar_length / 2,sensormount_clip_bar_height]
                                 ]);
 
                      // add the screw boss
                     translate([
                             0,
                             0,
-                            sensormount_hanger_clip_bar_height - sensormount_hanger_clip_bar_width / 2])
+                            sensormount_clip_bar_height - sensormount_clip_bar_width / 2])
                         rotate([90,0,90])
-                        cylinder(sensormount_hanger_clip_boss_height,
-                                sensormount_hanger_clip_boss_radius,
-                                sensormount_hanger_clip_boss_radius,center=false);
+                        cylinder(sensormount_clip_boss_height,
+                                sensormount_clip_boss_radius,
+                                sensormount_clip_boss_radius,center=false);
                             }
              }
 
             translate([sensormount_thickness,0,0]) {
                 // cut out the slot
                 translate([
-                        sensormount_hanger_clip_bar_length / 2,
+                        sensormount_clip_bar_length / 2,
                         0,
                         0])
                     linear_extrude(sensormount_thickness)
                         minkowski() {
                             square([
-                                    sensormount_hanger_clip_bar_length / 2 - sensormount_hanger_clip_bar_width / 2,
+                                    sensormount_clip_bar_length / 2 - sensormount_clip_bar_width / 2,
                                     0.0000001
                                     ],center = false);
-                            circle(sensormount_hanger_slot_width / 2);
+                            circle(sensormount_slot_width / 2);
                         }
 
                 //  cut out the clip screw hole
                 translate([
                         0,
                         0,
-                        sensormount_hanger_clip_bar_height - sensormount_hanger_clip_bar_width / 2])
+                        sensormount_clip_bar_height - sensormount_clip_bar_width / 2])
                     rotate([0,90,0])
                         cylinder(
-                            sensormount_hanger_clip_boss_height - slackness_screw,
-                            sensormount_hanger_clip_hole_radius,
-                            sensormount_hanger_clip_hole_radius,
+                            sensormount_clip_boss_height - slackness_screw,
+                            sensormount_clip_hole_radius,
+                            sensormount_clip_hole_radius,
                             center=false);
             }
         }
@@ -895,36 +792,28 @@ color("silver") union()
     }
     
     if (generate_sensormount) {
-        if (generate_sensormount_hanger) {
-            // variant with hanger
-            if (generate_sensormount_hanger_clip_short) {
-                // 2 short clips
-                translate([case_width + gap - 2 * sensorcase_thickness,(sensorcase_radius + sensorcase_thickness)* 2 + gap,0])
-                    rotate([0,0,-90]) {
-                        translate([-sensormount_hanger_clip_bar_length - gap,sensormount_hanger_clip_bar_width + 3 * sensorcase_thickness,0]) {
-                            // 1st clip
-                            rotate([0,0,180])
-                                make_sensormount_hanger_clip();
-                            if (generate_sensormount_hanger_clip_short_2nd) {
-                                // 2nd clip
-                                translate([gap,-sensormount_hanger_clip_bar_width - 3 * sensorcase_thickness,0])
-                                    make_sensormount_hanger_clip();
-                            }
+        if (generate_sensormount_clip_short) {
+            // 2 short clips
+            translate([case_width + gap - 2 * sensorcase_thickness,(sensorcase_radius + sensorcase_thickness)* 2 + gap,0])
+                rotate([0,0,-90]) {
+                    translate([-sensormount_clip_bar_length - gap,sensormount_clip_bar_width + 3 * sensorcase_thickness,0]) {
+                        // 1st clip
+                        rotate([0,0,180])
+                            make_sensormount_clip();
+                        if (generate_sensormount_clip_short_2nd) {
+                            // 2nd clip
+                            translate([gap,-sensormount_clip_bar_width - 3 * sensorcase_thickness,0])
+                                make_sensormount_clip();
                         }
                     }
-            }
-            if (generate_sensormount_hanger_clip_long) {
-                // 1 long clip
-                translate([case_width + gap + sensormount_hanger_clip_bar_width + gap + sensormount_hanger_bar_width,0,0])
-                     rotate([0,0,90])
-                        make_sensormount_hanger();
-            }
+                }
         }
-        else {
-            // variant with seduction caps
-            translate([case_width + gap + sensormount_succup_bar_width,(sensorcase_radius + sensorcase_thickness )* 2 + gap,0])
-                rotate([0,0,90])
-                    make_sensormount_suction_cup();
+        if (generate_sensormount_clip_long) {
+            // 1 long clip
+            translate([case_width + gap + sensormount_clip_bar_width + gap + sensormount_bar_width,0,0])
+                 rotate([0,0,90])
+                    make_sensormount();
         }
+
     }
 }/**/
