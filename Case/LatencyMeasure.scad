@@ -25,10 +25,11 @@
 $fn = 100;
 
 // what part should we generate?
-generate_lower_shell = false;
-generate_upper_shell = false;
-generate_buttons = true;
-generate_sensorcase = true;
+generate_case = true;
+generate_case_lower = true;
+generate_case_upper = false;
+generate_buttons = false;
+generate_sensorcase = false;
 generate_sensormount = true;
 generate_sensormount_clip_long = true;
 generate_sensormount_clip_short = true;
@@ -41,32 +42,42 @@ use_text = false;
 gap = 5;
 boss_draft_rel = 1.1;
 case_edge_radius_rel = 1.5;
-slackness_screw = 0.1;
-slackness_slide = 0.2;
-slackness_snap = 0.2;
+slackness = 0.2;
+slackness_screw = slackness;
+slackness_diode = slackness;
+slackness_slide = slackness;
+slackness_snap = slackness;
+slackness_cable = slackness;
 text_depth = 0.1;
 title = "Latency Measure";
 font_font = "Roboto Mono:style=Bold";
 snap_height = 1.0;
 
 // the dimension of the case itself
-case_width = 80;
-case_depth = 50;
-case_snap_width = case_width * 3 / 4 * 4 / 3 * 1 / 2;
-case_snap_depth = case_depth * 3 / 4 * 4 / 3 * 1 / 2;
+case_length = 100;
+case_width = 70;
+case_snap_width = case_length * 3 / 4 * 4 / 3 * 1 / 2;
+case_snap_depth = case_width * 3 / 4 * 4 / 3 * 1 / 2;
 case_lower_height = 20;
 case_upper_height = 5;
-case_thickness = 1.5;
+case_thickness = 1.8;
 case_edge_radius = case_thickness * case_edge_radius_rel;
 case_border_height = 0;
 
-// PCB mounts
-// offsets x & y are meassured from the inside of the case to the hole
-// w & h are meassured from hole to hole center
-pcbmount_x = 5;
-pcbmount_y = 5;
-pcbmount_w = 50;
-pcbmount_h = 40;
+// PCB board dimension
+pcb_length = 88.25;
+pcb_width = 52.25;
+pcb_thickness = 1.6;
+pcb_holes = [
+    // x offset, y offset, radius, boss true/false 
+    [  4.2,  9.4, 2.0 / 2, true  ],
+    [  4.2, 42.4, 2.0 / 2, true  ],
+    [ 83.0,  9.4, 2.0 / 2, true  ],
+    [ 83.0, 42.4, 2.0 / 2, true  ],
+    [ 11.8, 26.0, 3.0 / 2, false ],
+    [ 75.3, 26.0, 3.0 / 2, false ] ];
+
+// pcb mounts
 pcbmount_boss_radius = 2.0;
 pcbmount_boss_height = 3;
 pcbmount_hole_radius = 1 - slackness_screw;
@@ -101,8 +112,8 @@ display_inner_offset_x = 5;
 display_inner_offset_y = 0.5;
 
 // offset of the display on the frontside of the case
-display_outer_offset_x = (case_width - display_inner_width) / 2 - display_inner_offset_x;
-display_outer_offset_y = (case_depth - display_inner_height) / 5 * 1 - display_inner_offset_y;
+display_outer_offset_x = (case_length - display_inner_width) / 2 - display_inner_offset_x;
+display_outer_offset_y = (case_width - display_inner_height) / 5 * 1 - display_inner_offset_y;
 
 // LED
 led_count = 1;
@@ -111,7 +122,7 @@ led_height = 4.5;
 led_offset = 2 * 2.54;
 led_gap = led_offset - 2 * led_radius;
 led_outer_offset_x = display_outer_offset_x + display_inner_offset_x +display_inner_width +
-    (case_width - (display_outer_offset_x + display_inner_offset_x + display_inner_width)) / 2 - led_radius;
+    (case_length - (display_outer_offset_x + display_inner_offset_x + display_inner_width)) / 2 - led_radius;
 led_outer_offset_y = display_outer_offset_y + display_outer_height / 2 - led_radius;
 
 
@@ -121,7 +132,7 @@ button_radius = 4;
 button_offset = 5 * 2.54;
 button_slackness = slackness_slide;
 button_gap = button_offset - 2 * button_radius;
-button_outer_offset_x = (case_width - 2 * button_radius * button_count - (button_gap * (button_count - 1))) / 2;
+button_outer_offset_x = (case_length - 2 * button_radius * button_count - (button_gap * (button_count - 1))) / 2;
 button_outer_offset_y = display_outer_offset_y + display_outer_height + 2 * button_radius;
 button_pin_height = 5;
 button_pin_radius = 1.25;
@@ -132,7 +143,7 @@ button_font = [ "Symbola:style=Bold", "Symbola:style=Bold", font_font ];
 
 // the dimension of the sensor case
 sensorcase_thickness = 1.2;
-sensorcase_diode_radius = 2.55;
+sensorcase_diode_radius = 5.0 / 2;
 sensorcase_diode_height = 7.5;
 sensorcase_diode_gap = 8;
 sensorcase_radius = 2.5 * sensorcase_diode_radius;
@@ -141,7 +152,7 @@ sensorcase_edge_radius = 0.25;
 // dimensions of the sensor mount
 sensormount_thickness = 1.5 * sensorcase_thickness;
 sensormount_radius = sensorcase_radius + sensormount_thickness + slackness_snap;
-sensormount_cable_radius = 1.5;
+sensormount_cable_radius = 3.0 / 2;
 sensormount_edge_radius = 0.25;
 
 // the hanger variant
@@ -285,8 +296,7 @@ module make_sensorcase()
                     minkowski() {
                         cylinder(
                             sensorcase_height - sensorcase_edge_radius * 2,
-                            sensorcase_radius - sensorcase_edge_radius,
-                            sensorcase_radius - sensorcase_edge_radius,
+                            r = sensorcase_radius - sensorcase_edge_radius,
                             center=false);
                         sphere(sensorcase_edge_radius);
                     }
@@ -294,8 +304,7 @@ module make_sensorcase()
                 // add the ring
                 cylinder(
                         sensorcase_thickness,
-                        sensormount_radius,
-                        sensormount_radius,
+                        r = sensormount_radius,
                         center=false);
             }
 
@@ -303,15 +312,13 @@ module make_sensorcase()
             translate([0,0,sensorcase_diode_height])
                 cylinder(
                         sensorcase_height,
-                        sensorcase_radius - sensorcase_thickness,
-                        sensorcase_radius - sensorcase_thickness,
+                        r = sensorcase_radius - sensorcase_thickness,
                         center=false);
 
             // cut out the diode
             cylinder(
                     sensorcase_height,
-                    sensorcase_diode_radius,
-                    sensorcase_diode_radius,
+                    r = sensorcase_diode_radius + slackness_diode / 2,
                     center=false);
         }
     }
@@ -354,23 +361,21 @@ module make_sensormount()
             translate([sensormount_bar_width / 2,0,sensormount_thickness])
                 cylinder(
                         sensormount_height,
-                        sensormount_radius - sensormount_thickness,
-                        sensormount_radius - sensormount_thickness,
+                        r = sensormount_radius - sensormount_thickness,
                         center=false);
 
             // cut out the cable hole
-            translate([sensormount_bar_width / 2,0,0])
+            translate([sensormount_bar_width / 2,0,-sensormount_thickness / 2])
                 cylinder(
-                        sensormount_thickness,
-                        sensormount_cable_radius,
-                        sensormount_cable_radius,
+                        sensormount_thickness * 2,
+                        r = sensormount_cable_radius + slackness_cable / 2,
                         center=false);
 
             // cut out the slot
-            translate([sensormount_bar_length / 2 - sensormount_bar_width / 2,0,0])
+            translate([sensormount_bar_length / 2 - sensormount_bar_width / 2,0,-sensormount_thickness / 2])
                 make_rounded_square(sensormount_bar_length / 2,
                         sensormount_slot_width,
-                        sensormount_thickness,true,true);
+                        sensormount_thickness * 2,true,true);
 
             // engrave the title onto the mount
             if (use_text)
@@ -394,17 +399,17 @@ module make_sensormount_clip()
         difference() {
             union() {
                 // add the notches
-                # difference() {
+                difference() {
                     translate([0,-(sensormount_clip_bar_width + 2 * sensormount_thickness + slackness_slide) / 2,0])
                         cube([
                                 sensormount_clip_boss_height,
                                 sensormount_clip_bar_width + 2 * sensormount_thickness + slackness_slide,
                                 sensormount_thickness]);
-                    translate([0,-(sensormount_clip_bar_width + slackness_slide) / 2,0])
+                    translate([-sensormount_thickness,-(sensormount_clip_bar_width + slackness_slide) / 2,-sensormount_thickness / 2])
                         cube([
-                                sensormount_thickness,
+                                sensormount_thickness * 2,
                                 sensormount_clip_bar_width + slackness_slide,
-                                sensormount_thickness]);
+                                sensormount_thickness * 2]);
                 }
 
                 // build the clip itself
@@ -446,8 +451,8 @@ module make_sensormount_clip()
                 translate([
                         sensormount_clip_bar_length / 2,
                         0,
-                        0])
-                    linear_extrude(sensormount_thickness)
+                        -sensormount_thickness / 2])
+                    linear_extrude(sensormount_thickness * 2)
                         minkowski() {
                             square([
                                     sensormount_clip_bar_length / 2 - sensormount_clip_bar_width / 2,
@@ -458,7 +463,7 @@ module make_sensormount_clip()
 
                 //  cut out the clip screw hole
                 translate([
-                        0,
+                        -slackness_screw,
                         0,
                         sensormount_clip_bar_height - sensormount_clip_bar_width / 2])
                     rotate([0,90,0])
@@ -483,27 +488,27 @@ module make_case_half_shell(height,snap_border = 0)
     difference() {
         union() {
             // the case itself
-            make_rounded_box(height,case_width,case_depth,case_edge_radius);
+            make_rounded_box(height,case_length,case_width,case_edge_radius);
 
             // the snap border
             if (snap_border > 0)
                 translate([case_thickness / 2,case_thickness / 2,height])
-                    make_rounded_box(snap_border,case_width - case_thickness,case_depth - case_thickness,case_edge_radius);
+                    make_rounded_box(snap_border,case_length - case_thickness,case_width - case_thickness,case_edge_radius);
         }
 
         // make the case hollow
         translate([case_thickness,case_thickness,case_thickness])
             make_rounded_box(
                     height + abs(snap_border),
+                    case_length - 2 * case_thickness,
                     case_width - 2 * case_thickness,
-                    case_depth - 2 * case_thickness,
                     case_edge_radius);
         if (snap_border < 0)
             translate([case_thickness / 2 + slackness_snap / 2,case_thickness / 2 + slackness_snap / 2,height - abs(snap_border) + slackness_snap])
                 make_rounded_box(
                         abs(snap_border),
+                        case_length - case_thickness - slackness_snap,
                         case_width - case_thickness - slackness_snap,
-                        case_depth - case_thickness - slackness_snap,
                         case_edge_radius);
     }
 }
@@ -545,25 +550,32 @@ module make_case_lower_shell()
     }
 
     // add mouting holes
-    translate([case_thickness,case_thickness,case_thickness])
-        for (x = [pcbmount_x,pcbmount_x + pcbmount_w]) {
-            for (y = [pcbmount_y,pcbmount_y + pcbmount_h]) {
-                translate([x,y,0])
+    translate([case_thickness,(case_width - 2 * case_thickness - pcb_width) / 2 + case_thickness,case_thickness])
+        for (hole = pcb_holes) {
+            if (hole[3])
+                translate([hole[0],hole[1],0])
                     difference() {
-                        cylinder(pcbmount_boss_height,
-                                pcbmount_boss_radius * boss_draft_rel,
-                                pcbmount_boss_radius);
-                        cylinder(pcbmount_boss_height,
-                                pcbmount_hole_radius,
-                                pcbmount_hole_radius);
+                        cylinder(pcbmount_boss_height,pcbmount_boss_radius * boss_draft_rel,pcbmount_boss_radius);
+                        cylinder(pcbmount_boss_height * 2,r = pcbmount_hole_radius);
                     }
-            }
         }
+
+    // add the PCB
+    color("green") {
+        translate([case_thickness,(case_width - 2 * case_thickness - pcb_width) / 2 + case_thickness,case_thickness + pcbmount_boss_height]) 
+            difference() {
+                cube([pcb_length,pcb_width,pcb_thickness],center = false);
+                for (hole = pcb_holes) {
+                    translate([hole[0],hole[1],-pcb_thickness / 2])
+                        cylinder(pcb_thickness * 2,r = hole[2]);
+                }
+            }
+    }
 
     // add snaps on the long sides
     if (case_border_height == 0) {
         for (side = [-1,+1])
-            translate([(case_width - case_snap_width) / 2,case_depth / 2 + side * (case_depth / 2 - case_thickness),case_lower_height - snap_height])
+            translate([(case_length - case_snap_width) / 2,case_width / 2 + side * (case_width / 2 - case_thickness),case_lower_height - snap_height])
                 rotate([90 * side,0,0])
                     translate([0,-snap_height,0])
                         make_prism(case_snap_width,snap_height * 2,snap_height,snap_height);
@@ -641,12 +653,12 @@ module make_case_upper_shell()
 
             // engrave the title onto the case
             if (use_text)
-                translate([case_depth * 0.1,display_outer_offset_y / 2,text_depth])
+                translate([case_width * 0.1,display_outer_offset_y / 2,text_depth])
                     rotate([0,180,180])
                         linear_extrude(text_depth)
                             text(
                                     title,
-                                    case_depth / 20,
+                                    case_width / 20,
                                     font_font,
                                     valign = "center",
                                     halign = "left"
@@ -707,10 +719,10 @@ module make_case_upper_shell()
     // add barriers on short sides
     if (case_border_height == 0) {
         for (side = [-1,+1])
-            translate([case_width / 2 + side * (case_width / 2 - case_thickness * 3 / 2 - slackness_snap),2 * case_edge_radius,case_thickness])
+            translate([case_length / 2 + side * (case_length / 2 - case_thickness * 3 / 2 - slackness_snap),2 * case_edge_radius,case_thickness])
                 rotate([0,0,90])
                     translate([0,-case_thickness / 2,0])
-                        make_rounded_box(case_thickness,1 * case_depth - 2 * 2 * case_edge_radius,case_thickness,case_thickness / 4);
+                        make_rounded_box(case_thickness,1 * case_width - 2 * 2 * case_edge_radius,case_thickness,case_thickness / 4);
     }
 
     // add snap counterparts on long sides
@@ -718,12 +730,12 @@ module make_case_upper_shell()
         for (side = [-1,+1])
                difference() {
                 // the block ...
-                translate([2 * case_edge_radius,case_depth / 2 + side * (case_depth / 2 - snap_height * 2 - slackness_snap),case_thickness])
+                translate([2 * case_edge_radius,case_width / 2 + side * (case_width / 2 - snap_height * 2 - slackness_snap),case_thickness])
                     translate([0,-snap_height,0])
-                        make_rounded_box(snap_height * 2,case_width - 2 * 2 * case_edge_radius,snap_height * 2,snap_height / 2);
+                        make_rounded_box(snap_height * 2,case_length - 2 * 2 * case_edge_radius,snap_height * 2,snap_height / 2);
 
                 // ... and substract the snap
-                translate([(case_width - case_snap_width) / 2,case_depth / 2 + side * (case_depth / 2 - snap_height * 1 - slackness_snap),case_thickness + snap_height])
+                translate([(case_length - case_snap_width) / 2,case_width / 2 + side * (case_width / 2 - snap_height * 1 - slackness_snap),case_thickness + snap_height])
                     rotate([90 * side,0,0])
                         translate([0,-snap_height,0])
                             make_prism(case_snap_width,snap_height * 2,snap_height - slackness_snap,snap_height - slackness_snap);
@@ -768,33 +780,33 @@ module make_oled_SSD1306()
 /*
 ** put everthing together side by side
 */
-color("silver") union()
+union()
 {
     // the case itself
-    if (generate_lower_shell)
+    if (generate_case && generate_case_lower)
         translate([0,0])
             make_case_lower_shell();
 
-    if (generate_upper_shell)
-        translate([0,case_depth + gap,0])
+    if (generate_case && generate_case_upper)
+        translate([0,case_width + gap,0])
             make_case_upper_shell();
 
     if (generate_buttons)
-        translate([0,(case_depth + gap) * 2,0])
+        translate([0,(case_width + gap) * 2,0])
                 for (button = [0:button_count - 1])
                     translate([button * (button_radius * 2 + button_gap),0,0])
                         make_button((button) ? false : true);
 
     if (generate_sensorcase) {
         // the sensor case without any mounts
-        translate([case_width + gap,0,0])
+        translate([case_length + gap,0,0])
             make_sensorcase();
     }
     
     if (generate_sensormount) {
         if (generate_sensormount_clip_short) {
             // 2 short clips
-            translate([case_width + gap - 2 * sensorcase_thickness,(sensorcase_radius + sensorcase_thickness)* 2 + gap,0])
+            translate([case_length + gap - 2 * sensorcase_thickness,(sensorcase_radius + sensorcase_thickness)* 2 + gap,0])
                 rotate([0,0,-90]) {
                     translate([-sensormount_clip_bar_length - gap,sensormount_clip_bar_width + 3 * sensorcase_thickness,0]) {
                         // 1st clip
@@ -810,10 +822,9 @@ color("silver") union()
         }
         if (generate_sensormount_clip_long) {
             // 1 long clip
-            translate([case_width + gap + sensormount_clip_bar_width + gap + sensormount_bar_width,0,0])
+            translate([case_length + gap + sensormount_clip_bar_width + gap + sensormount_bar_width,0,0])
                  rotate([0,0,90])
                     make_sensormount();
         }
-
     }
 }/**/
