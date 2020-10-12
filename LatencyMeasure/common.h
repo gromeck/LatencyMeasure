@@ -58,8 +58,8 @@
 /*
 **  pins for the buttons
 */
-#define PIN_IN_BTNMODE    1
-#define PIN_IN_BTNOK      0
+#define PIN_IN_BTNMODE    0
+#define PIN_IN_BTNOK      1
 #if FEATURE_SCREENSHOT
 #define PIN_IN_SCREENSHOT 4
 #endif
