@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name SparkFun-IC-Microcontroller)(type Legacy)(uri /home/gromeck/git/SparkFun-KiCad-Libraries/Libraries/SparkFun-IC-Microcontroller.lib)(options "")(descr ""))
+  (lib (name SparkFun-Boards)(type Legacy)(uri /home/gromeck/git/SparkFun-KiCad-Libraries/Libraries/SparkFun-Boards.lib)(options "")(descr ""))
+)
