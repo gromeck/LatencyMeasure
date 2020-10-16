@@ -19,7 +19,7 @@ I needed a tool to measure these latencies from the human input to the visual re
 ## Solution
 
 I have setup a small circuit with an Arduino compatible micro controller to simulate a HID (human input device) event via USB and registering the change on the screen via a photo transistor. The device will meassure and display the time between these events.
-The micro controller is capable to deliver a resulotion of 1 ms.
+The micro controller is capable to deliver a resolution of 1 ms.
 
 ## What is in this respository?
 
