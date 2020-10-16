@@ -1,1 +1,4 @@
-use KiCAD to edit or export to PDF
+To edit the circuit file LatencyMeasure.pro, use KiCAD.
+When done, export to PDF and convert to with pdf2png.
+
+PCB-Layout.[odg|pdf] contains the layout on a PCB breadboard.
