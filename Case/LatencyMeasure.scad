@@ -19,11 +19,6 @@
     You should have received a copy of the GNU General Public License
     along with LatencyMeasure.  If not, see <https://www.gnu.org/licenses/>.
 
-
-    TODO:
-        [x] display weiter nach rechts, so dass die rechten beiden Buttons unter dem Display sind
-        [x] Cinch-Buchse auf die gegenüberliegende Seite verlagern, damit das Kabel nach hinten geführt wird
-        [ ] magnet usb kabel adapter einpasstn
 */
 
 // fragment control to make curves smooth
@@ -33,26 +28,29 @@ $fn = 0;
 
 // generate the final output
 final = true;
-//what = "case";
+what = "case";
 //what = "buttons";
 //what = "sensor";
-what = "all";
+//what = "all";
 
 // what part should we generate?
 generate_pcb = (final) ? false : true;
 
-generate_case = ((final && what == "case") || what == "all") ? true : false;
+generate_case = (final || what == "case" || what == "all") ? true : false;
 generate_case_lower = true;
 generate_case_upper = true;
 generate_case_closed = (final) ? false : false;
 
-generate_buttons = ((final && what == "buttons" || what == "all")) ? true : false;
+generate_buttons = (what == "buttons" || what == "all") ? true : false;
 
-generate_sensorcase = ((final && what == "sensor" || what == "all")) ? true : false;
-generate_sensormount = ((final && what == "sensor" || what == "all")) ? true : false;
-generate_sensormount_clip_long = ((final && what == "sensor" || what == "all") && generate_sensormount) ? true : false;
-generate_sensormount_clip_short = ((final && what == "sensor" || what == "all") && generate_sensormount) ? true : false;
-generate_sensormount_clip_short_2nd = ((final && what == "sensor" || what == "all") && generate_sensormount) ? true : false;
+generate_sensorcase = (what == "sensor" || what == "all") ? true : false;
+generate_sensormount = (what == "sensor" || what == "all") ? true : false;
+generate_sensormount_clip_long = (generate_sensormount && (what == "sensor" || what == "all")) ? true : false;
+generate_sensormount_clip_short = (generate_sensormount && (what == "sensor" || what == "all")) ? true : false;
+generate_sensormount_clip_short_2nd = (generate_sensormount && (what == "sensor" || what == "all")) ? true : false;
+
+// select the type of usb port (square or round)
+generate_usbport_round = true;
 
 // the gap used to place elements
 gap = 5;
@@ -81,16 +79,18 @@ pcb_button_width = 6.0;
 pcb_button_base_height = 3.0;
 pcb_button_radius = 3.0 / 2;
 pcb_button_height = 9.5;
-pcb_controller_length = 33.2;
-pcb_controller_width = 18.3;
+pcb_controller_length = 1.30 * 25.4;
+pcb_controller_width = 0.7 * 25.4;
 pcb_controller_height = 1.6;
 pcb_usbport_length = 5.5;
-pcb_usbport_width = 7.5;
+pcb_usbport_width = 5.5;
 pcb_usbport_height = 2.6;
 pcb_led_height = 5.5;
 pcb_led_radius = 3.0 / 2;
-usbport_width = 12.0;
-usbport_height = 7.0;
+
+// usbport cutout
+usbport_width = (generate_usbport_round) ? 9.0 : 12.0;
+usbport_height = (generate_usbport_round) ? usbport_width : 7.0;
 usbport_edge_radius = 0.5;
 
 // the dimension of the case itself
@@ -562,6 +562,7 @@ module make_pcb()
                                 }
                     }
                     if (element[4] == "controller") {
+                        // controller socket
                         translate([element[0] + pcb_controller_length / 2,element[1] + pcb_controller_width / 2,element[2] / 2])
                             color("black")
                                 difference() {
@@ -570,9 +571,18 @@ module make_pcb()
                                     translate([-pcb_controller_height / 2,0,0])
                                         cube([pcb_controller_length + 2 * pcb_controller_height,pcb_controller_width - pcb_controller_height * 2,element[2]+pcb_controller_height],center = true);
                                 }
-                        translate([element[0] + pcb_controller_length / 2,element[1] + pcb_controller_width / 2,pcb_controller_height / 2 + element[2]])
-                            color("lightblue")
-                                cube([pcb_controller_length,pcb_controller_width,pcb_controller_height],center = true);
+                        // controller itself
+                        if (1) {
+                            translate([element[0],element[1],element[2]])
+                                rotate([0,0,90])
+                                    translate([0,-pcb_controller_length,0])
+                                        import("Pro_Micro.stl",1);
+                        }
+                        else {
+                            translate([element[0] + pcb_controller_length / 2,element[1] + pcb_controller_width / 2,pcb_controller_height / 2 + element[2]])
+                                color("lightblue")
+                                    cube([pcb_controller_length,pcb_controller_width,pcb_controller_height],center = true);
+                        }
                     }
                     if (element[4] == "usbport") {
                         translate([element[0] + pcb_usbport_length / 2,element[1] + pcb_usbport_width / 2,pcb_usbport_height / 2 + element[2]])
@@ -646,9 +656,18 @@ module make_case_lower_shell()
             translate([0,0,pcb_thickness])
                 for (element = pcb_elements) {
                     if (element[4] == "usbport") {
-                        translate([element[0] - pcb_usbport_length,pcb_usbport_width / 2 + element[1] + usbport_width / 2 + slackness_usb / 2,pcb_usbport_height / 2 + element[2] + usbport_height / 2 + slackness_usb / 2])
-                            rotate([-90,0,-90])
-                                make_rounded_box(pcb_usbport_length * 2,usbport_width + slackness_usb,usbport_height + slackness_usb,usbport_edge_radius);
+                        if (generate_usbport_round) {
+                            // round cut-out
+                            translate([element[0] - pcb_usbport_length,pcb_usbport_width / 2 + element[1] + slackness_usb / 2,pcb_usbport_height / 2 + element[2] + slackness_usb / 2])
+                                rotate([-90,0,-90])
+                                    cylinder(pcb_usbport_length * 2,r = usbport_width / 2 + slackness_usb,center=true);
+                        }
+                        else {
+                            // square cut-out
+                            translate([element[0] - pcb_usbport_length,pcb_usbport_width / 2 + element[1] + usbport_width / 2 + slackness_usb / 2,pcb_usbport_height / 2 + element[2] + usbport_height / 2 + slackness_usb / 2])
+                                rotate([-90,0,-90])
+                                    make_rounded_box(pcb_usbport_length * 2,usbport_width + slackness_usb,usbport_height + slackness_usb,usbport_edge_radius);
+                        }
                     }
                 }
 
@@ -679,6 +698,15 @@ module make_case_lower_shell()
                 cube([sensorport_width + slackness_slide,sensorport_length * 2,sensorport_height],center = true);
             }
         }
+        
+    // add the barrier to hold the sensorport cinch plug -- with a little distance for some hot glue
+    translate([case_thickness,case_thickness,case_thickness])
+        translate([sensorport_offset_x + sensorport_width / 2,sensorport_offset_y + sensorport_length + case_thickness * 3,sensorport_offset_z + case_thickness / 2]) {
+            difference() {
+                cube([sensorport_width,case_thickness * 2,case_thickness],center = true);
+            }
+        }
+        
 
     // add snaps on the long sides
     if (case_border_height == 0) {
