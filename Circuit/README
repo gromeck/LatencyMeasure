@@ -1,4 +1,6 @@
 To edit the circuit file LatencyMeasure.pro, use KiCAD.
 When done, export to PDF and convert to with pdf2png.
 
+Add Sparkfun KiCAD symbols from https://github.com/sparkfun/SparkFun-KiCad-Libraries
+
 PCB-Layout.[odg|pdf] contains the layout on a PCB breadboard.
