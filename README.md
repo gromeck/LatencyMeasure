@@ -4,6 +4,8 @@
 <img src="Ressources/Photos/LatencyMeasure-Breadboard-2.jpg" height="300px">
 <img src="Ressources/Photos/LatencyMeasure-PCB-1.jpg" height="300px">
 <img src="Ressources/Photos/LatencyMeasure-PCB-2.jpg" height="300px">
+<img src="Ressources/Photos/LatencyMeasure-Enclosure-1.jpg" height="300px">
+<img src="Ressources/Photos/LatencyMeasure-Enclosure-2.jpg" height="300px">
 </div>
 
 # LatencyMeasure
