@@ -1,2 +1,4 @@
 *-cache.lib
 *.bak
+.~lock*
+sym-lib-table
