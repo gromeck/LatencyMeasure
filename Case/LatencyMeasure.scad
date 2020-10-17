@@ -28,10 +28,10 @@ $fn = 0;
 
 // generate the final output
 final = true;
-what = "case";
+//what = "case";
 //what = "buttons";
 //what = "sensor";
-//what = "all";
+what = "all";
 
 // what part should we generate?
 generate_pcb = (final) ? false : true;
@@ -111,8 +111,9 @@ pcbmount_boss_height = pcbmount_screw_length - pcb_thickness - case_thickness / 
 pcbmount_hole_radius = pcbmount_screw_diameter / 2 - slackness_screw / 2;
 pcbmount_boss_radius = pcbmount_hole_radius * 3;
 
-
-echo(pcb_width / 2 - pcb_usbport_width / 2 + 2.54);
+echo("case length=",case_length);
+echo("case width=",case_width);
+echo("case height=",case_lower_height + case_thickness);
 
 // sensor connector (cinch)
 sensorport_offset_z = 0;
