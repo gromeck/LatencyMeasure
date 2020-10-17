@@ -1,13 +1,3 @@
-
-<div style="float:left;">
-<img src="Ressources/Photos/LatencyMeasure-Breadboard-1.jpg" height="300px">
-<img src="Ressources/Photos/LatencyMeasure-Breadboard-2.jpg" height="300px">
-<img src="Ressources/Photos/LatencyMeasure-PCB-1.jpg" height="300px">
-<img src="Ressources/Photos/LatencyMeasure-PCB-2.jpg" height="300px">
-<img src="Ressources/Photos/LatencyMeasure-Enclosure-1.jpg" height="300px">
-<img src="Ressources/Photos/LatencyMeasure-Enclosure-2.jpg" height="300px">
-</div>
-
 # LatencyMeasure
 A tool to measure latency from keybard or mouse input to a visual response on the screen.
 
@@ -20,6 +10,10 @@ I needed a tool to measure these latencies from the human input to the visual re
 
 I have setup a small circuit with an Arduino compatible micro controller to simulate a HID (human input device) event via USB and registering the change on the screen via a photo transistor. The device will meassure and display the time between these events.
 The micro controller is capable to deliver a resolution of 1 ms.
+
+<div style="float:left;">
+<img src="Ressources/Other/LatencyMeasure-Schema.png" height="500px">
+</div>
 
 ## What is in this respository?
 
@@ -101,3 +95,12 @@ These models are designed with [OpenSCAD](https://www.openscad.org/). Use the la
 ### [Ressources](Ressources/)
 
 This directory holds images and screenshots.
+
+<div style="float:left;">
+<img src="Ressources/Photos/LatencyMeasure-Breadboard-1.jpg" height="300px">
+<img src="Ressources/Photos/LatencyMeasure-Breadboard-2.jpg" height="300px">
+<img src="Ressources/Photos/LatencyMeasure-PCB-1.jpg" height="300px">
+<img src="Ressources/Photos/LatencyMeasure-PCB-2.jpg" height="300px">
+<img src="Ressources/Photos/LatencyMeasure-Enclosure-1.jpg" height="300px">
+<img src="Ressources/Photos/LatencyMeasure-Enclosure-2.jpg" height="300px">
+</div>
