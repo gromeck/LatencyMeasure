@@ -89,6 +89,10 @@ All test clients support the same functionality.
 
 In this directory you will find a 3D model of an enclosure for the device, as well as a sensor mount to hang on the screen.
 These models are designed with [OpenSCAD](https://www.openscad.org/). Use the latest version of OpenSCAD (nightly build).
+To mount the PCB into the enclosure, four screws in 1.7x5.0mm are used.
+The lower and upper shells of the enclosure are simply snapped together -- without any screws.
+As the USB port of the micro controller board is a little bit sensitive to mechanical stress, an adapter for
+a magnetic USB connector cable is used.
 
 ![Case](Case/LatencyMeasure.png)
 
