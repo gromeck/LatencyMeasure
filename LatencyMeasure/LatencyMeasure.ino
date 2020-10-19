@@ -103,7 +103,7 @@ void setup()
   ** initialize the display
   */
   display_init();
-  display_set_content("\007 Latency Measure \007");
+  display_set_content(TITLE);
   display_flush();
 
   /*
@@ -133,7 +133,7 @@ void loop()
       display_clear();
       if (++_mode < 0 || !_main_menu[_mode].title)
         _mode = 0;
-      display_set_header("Menu");
+      display_set_header("MENU");
       display_set_page(_mode + 1, sizeof(_main_menu) / sizeof(MAIN_MENU) - 1);
       display_set_content(_main_menu[_mode].title);
       display_menu("NEXT", "OK");
