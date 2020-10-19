@@ -66,57 +66,65 @@ void measurement_measure(void)
       display_flush();
 
       /*
-         start the timer at pressing the button/key
-      */
-      if (_config.timer_starts_at == KEY_PRESSED)
-        trigger_reset();
-
-      /*
-         send the event via USB
-      */
-      if (_config.hid_device == MOUSE)
-        Mouse.press(_config.hid_mouse_button);
-      else
-        Keyboard.press(_config.hid_keyboard_key);
-
-      /*
-         reset the trigger timer
-      */
-      delay(HID_STROKE_TIME);
-
-      /*
-         start the timer at releasing the button/key
-      */
-      if (_config.timer_starts_at != KEY_PRESSED)
-        trigger_reset();
-
-      /*
-         send the event via USB
-      */
-      if (_config.hid_device == MOUSE)
-        Mouse.release(_config.hid_mouse_button);
-      else
-        Keyboard.release(_config.hid_keyboard_key);
-
-      /*
-         get the time until the sensor detected the reaction on the event
-      */
-      latency = trigger_wait(MAX_LATENCY);
-
-      /*
-         check the result
-      */
-      if (latency) {
-        latency_total += latency;
-        latency_count++;
-        if (latency > latency_max)
-          latency_max = latency;
-        if (latency < latency_min)
-          latency_min = latency;
-        display_set_content("%s\nLatency: %dms", msg, latency);
+       * check if the test client is ready
+       */
+      if (trigger_ready()) {
+        /*
+           start the timer at pressing the button/key
+        */
+        if (_config.timer_starts_at == KEY_PRESSED)
+          trigger_reset();
+  
+        /*
+           send the event via USB
+        */
+        if (_config.hid_device == MOUSE)
+          Mouse.press(_config.hid_mouse_button);
+        else
+          Keyboard.press(_config.hid_keyboard_key);
+  
+        /*
+           reset the trigger timer
+        */
+        delay(HID_STROKE_TIME);
+  
+        /*
+           start the timer at releasing the button/key
+        */
+        if (_config.timer_starts_at != KEY_PRESSED)
+          trigger_reset();
+  
+        /*
+           send the event via USB
+        */
+        if (_config.hid_device == MOUSE)
+          Mouse.release(_config.hid_mouse_button);
+        else
+          Keyboard.release(_config.hid_keyboard_key);
+  
+        /*
+           get the time until the sensor detected the reaction on the event
+        */
+        latency = trigger_wait(MAX_LATENCY);
+  
+        /*
+           check the result
+        */
+        if (latency) {
+          latency_total += latency;
+          latency_count++;
+          if (latency > latency_max)
+            latency_max = latency;
+          if (latency < latency_min)
+            latency_min = latency;
+          display_set_content("%s\nLatency: %dms", msg, latency);
+        }
+        else
+          display_set_content("%s\nTIMEOUT", msg);
       }
       else
-        display_set_content("%s\nTIMEOUT", msg);
+          display_set_content("%s\nTEST CLIENT NOT READY",msg);
+      
       display_flush();
 
       /*

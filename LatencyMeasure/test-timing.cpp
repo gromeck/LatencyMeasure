@@ -54,21 +54,33 @@ void test_timing(void)
       /*
          do the calibration itself by setting the pin of the test LED to high
       */
-      trigger_reset();
-      delay(simulated_latency);
-      digitalWrite(PIN_OUT_LED, HIGH);
-      measured_latency = trigger_wait(TEST_TIME);
-      digitalWrite(PIN_OUT_LED, LOW);
-
-      /*
-         show the result
-      */
-      if (measured_latency) {
-        failed = (abs(measured_latency - simulated_latency) > MAX_DEVIATION);
-        display_set_content("%sMeasured : %dms%s", msg, measured_latency, (failed) ? " FAIL" : "");
+      if (trigger_ready()) {
+        /*
+         * the device is ready (currently dark)
+         */
+        trigger_reset();
+        delay(simulated_latency);
+        digitalWrite(PIN_OUT_LED, HIGH);
+        measured_latency = trigger_wait(TEST_TIME);
+        digitalWrite(PIN_OUT_LED, LOW);
+  
+        /*
+           show the result
+        */
+        if (measured_latency) {
+          failed = (abs(measured_latency - simulated_latency) > MAX_DEVIATION);
+          display_set_content("%sMeasured : %dms%s", msg, measured_latency, (failed) ? " FAIL" : "");
+        }
+        else {
+          display_set_content("%sMeasured : TIMEOUT", msg);
+        }
       }
       else {
-        display_set_content("%sMeasured : TIMEOUT", msg);
+        /*
+         * the device is not ready (currently bright)
+         */
+         failed = true;
+         display_set_content("%sDEVICE NOT READY", msg);
       }
       if (failed)
         total_failed++;
