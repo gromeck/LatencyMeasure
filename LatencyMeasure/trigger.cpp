@@ -24,6 +24,7 @@
 */
 #include "trigger.h"
 
+static int _trigger_pin = 0;
 static volatile unsigned long _trigger_start = 0;
 static volatile unsigned long _trigger_time = 0;
 
@@ -43,8 +44,19 @@ static void _trigger_isr(void)
 */
 void trigger_init(int pin)
 {
+  _trigger_pin = pin;
   pinMode(pin, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(pin), _trigger_isr, FALLING);
+}
+
+/*
+ * check if the trigger is ready
+ * 
+ * we do expect that the triggering pin is high before we wait for the trigger
+ */
+int trigger_ready(void)
+{
+  return (digitalRead(_trigger_pin) == HIGH) ? true : false;
 }
 
 /*
