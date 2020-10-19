@@ -33,8 +33,9 @@
 #endif
 
 static const char *_device_info[] = {
-    "SW-Version:\n" __DATE__ " " __TIME__,
-    "Device:\n" DEVICE_TYPE,
+    //"SW-Version:\n" __DATE__ " " __TIME__,
+    "SW-Version:\n" __DATE__,
+    //"Device:\n" DEVICE_TYPE,
     "Visit " GITHUB_URL
 };
 #define DEVICE_INFO_ITEMS   (sizeof(_device_info) / sizeof(char *))
