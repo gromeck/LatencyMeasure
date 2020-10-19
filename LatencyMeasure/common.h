@@ -52,7 +52,6 @@
 */
 #define TITLE "LatencyMeasure"
 
-//#define GITHUB_URL  "https://github.com/gromeck/LatencyMeasure"
 #define GITHUB_URL  "github.com/gromeck/" TITLE
 
 /*
