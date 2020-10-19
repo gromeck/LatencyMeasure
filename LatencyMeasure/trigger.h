@@ -30,6 +30,7 @@
 
 void trigger_init(int pin);
 
+int trigger_ready(void);
 void trigger_reset(void);
 unsigned long trigger_wait(int timetowait);
 unsigned long trigger_time(void);
