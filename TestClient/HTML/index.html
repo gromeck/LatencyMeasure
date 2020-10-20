@@ -20,12 +20,23 @@
 <html lang="en-US">
 	<meta charset="utf-8">
 	<head>
-		<title>LatencyMeasure with HTML client</title>
+		<title>LatencyMeasure HTML Test Client</title>
 		<style>
 			* {
 				padding:0;
 				margin:0;
 				border:0;
+				font-family:sans-serif;
+				font-size:1rem;
+			}
+			h1 {
+				font-size:2rem;
+				padding:0.25rem;
+				padding-left:1rem;
+				background:#e0e0e0;
+			}
+			p {
+				padding-bottom:0.53rem;
 			}
 			.box {
 				border:0px solid black;
@@ -35,58 +46,197 @@
 				padding:5px;
 			}
 			button, input[type=text] {
-				margin:5px;
-				padding:3px;
-				padding-left:10px;
-				padding-right:10px;
-				width:240px;
+				margin:0.25rem;
+				padding:0.25rem;
+				padding-left:1rem;
+				padding-right:1rem;
+				min-width:16rem;
 				border:1px solid black;
+			}
+			#toggleButton, #triggerButton {
+				display:block;
+				width:100%;
+			}
+			#triggerButton {
+				height:2rem;
+			}
+			#triggerButton {
+				height:3rem;
+			}
+			input[type=radio] {
+				margin:0.25rem;
+				padding:1rem;
+				padding-top:0.25rem;
+			}
+			.backendFrame {
+				margin:0.5rem;
+				padding:0.5rem;
+				min-width:16rem;
+				border:1px solid black;
+			}
+			#requestStatus {
+				margin-top:1rem;
+				padding:0.25rem;
+				background:#f0f0f0;
 			}
 			#latency {
-				width:220px;
+				width:5rem;
 			}
 			#sensorarea {
-				margin:5px;
-				padding:3px;
+				margin:0.25rem;
+				padding:0.25rem;
 				border:1px solid black;
-				width:230px;
-				height:100px;
+				min-width:16rem;
+				height:10rem;
 				color:red;
 				background:black;
+			}
+			#noteCors {
+				margin:0.25rem;
+				padding:0.25rem;
+				border:1px solid black;
+				margin-top:1rem;
+				min-width:16rem;
+				background:#f0e0e0;
 			}
 		</style>
 		<script>
 		var _toggle = false;
+
 		function clickedToggleButton()
 		{
 			_toggle = !_toggle;
 			document.getElementById("sensorarea").style.backgroundColor = (_toggle) ? 'white' : 'black';
 		}
+
+		function triggerSensor()
+		{
+			document.getElementById("sensorarea").style.backgroundColor = (!_toggle) ? 'white' : 'black';
+			setTimeout(function(){
+					document.getElementById("sensorarea").style.backgroundColor = (_toggle) ? 'white' : 'black';
+				}, 500);
+		}
+
 		function clickedTriggerButton()
 		{
-			var latency = document.getElementById('latency').value;
-			//alert("latency is " + latency);
+			if (document.getElementById('backendButtonAjax').checked) {
+				/*
+				**	do the AJAX backend communication
+				*/
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+						if (this.readyState == 4) {
+							// communication is done, so trigger the sensor
+							triggerSensor();
 
-			setTimeout(function(){
-					document.getElementById("sensorarea").style.backgroundColor = (!_toggle) ? 'white' : 'black';
-					setTimeout(function(){
-							document.getElementById("sensorarea").style.backgroundColor = (_toggle) ? 'white' : 'black';
-						}, 500);
-				}, latency);
+							// show the status of the request
+							document.getElementById("backendAjaxStatus").innerHTML =
+								"<font color=\"" + ((this.status == 200) ? "green" : "red" ) + "\">" +
+								(document.getElementById('backendButtonAjaxRequestTypeGet').checked ? "GET" : "HEAD") + 
+								" " +
+								document.getElementById('backendAjaxUrl').value +
+								" RC=" + this.status + " (" + this.statusText + ") " + this.responseText +
+								"</font>";
+
+							// clean-up the last request return code
+							setTimeout(function(){
+									document.getElementById("backendAjaxStatus").innerHTML = "";
+								}, 3000);
+						}
+					}
+				xhttp.open(document.getElementById('backendButtonAjaxRequestTypeGet').checked ? "GET" : "HEAD",
+					document.getElementById('backendAjaxUrl').value,true);
+				xhttp.send();
+			}
+			else if (document.getElementById('backendButtonStaticDelay').checked) {
+				/*
+				**	add the static delay
+				*/
+				var latency = document.getElementById('latency').value;
+				//alert("latency is " + latency);
+				setTimeout("triggerSensor()",latency);
+			}
+			else {
+				/*
+				**	no backend simulation
+				*/
+				triggerSensor();
+			}
+		}
+
+		/*
+		**	switch the visibility of the backend communcation options
+		*/
+		function clickedBackendButton()
+		{
+			var Ajax = document.getElementById('backendButtonAjax').checked;
+			var StaticDelay = document.getElementById('backendButtonStaticDelay').checked;
+
+			document.getElementById('backendAjax').style.display = Ajax ? 'block' : 'none';
+			document.getElementById('noteCors').style.display = Ajax ? 'block' : 'none';
+			document.getElementById('backendStaticDelay').style.display = StaticDelay ? 'block' : 'none';
+		}
+
+		/*
+		**	trigger when page is loaded
+		*/
+		function initPage()
+		{
+			clickedBackendButton();
 		}
 		</script>
 	</head>
-	<body>
+	<body onload="initPage()">
+		<h1>LatencyMeasure HTML Test Client</h1>
 		<div class=box>
-			<div class=text>Latency to add [ms]:</div>
-			<input type=text class=input id=latency value="0">
-			<p>
-			<button type=button onclick="clickedToggleButton()">Toggle sensor areas background</button>
-			<p>
-			<button type=button onclick="clickedTriggerButton()">Place mouse cursor here!</button>
-			<div id=sensorarea>
-				Place sensor here!
+			<div class=text>
+				Simulation of Backend Communication:
+				<p>
+				<input type=radio onclick="clickedBackendButton()" id=backendButtonNone name=backend checked>none</button>
+				<input type=radio onclick="clickedBackendButton()" id=backendButtonStaticDelay name=backend>static delay</button>
+				<input type=radio onclick="clickedBackendButton()" id=backendButtonAjax name=backend>AJAX</button>
 			</div>
+			<div>
+				<div id=backendStaticDelay class=backendFrame style="display:none;">
+					<div class=text>The static delay is added upon the trigger event before the sensor area will be switched:</div>
+					<input type=text class=input id=latency value=0>ms
+				</div>
+				<div id=backendAjax class=backendFrame style="display:none;">
+					<div>
+						<span class=text>The following URL is requested upon the trigger event:</span>
+						<p>
+						<input type=text class=input id=backendAjaxUrl value="http://localhost/">
+						<div>
+							<span class=text>Request Type:</span>
+							<input type=radio id=backendButtonAjaxRequestTypeGet  name=requestType checked>GET</button>
+							<input type=radio id=backendButtonAjaxRequestTypeHead name=requestType >HEAD</button>
+						</div>
+					</div>
+					<div id=requestStatus>
+						<b>Request Status:</b> <span id=backendAjaxStatus></span>
+					</div>
+				</div>
+			<div>
+			<p>
+			<div>
+				<button type=button onclick="clickedToggleButton()" id=toggleButton>Toggle sensors area background</button>
+				<p>
+				<button type=button onclick="clickedTriggerButton()" id=triggerButton>Place mouse cursor here!</button>
+				<div id=sensorarea>
+					Place sensor here!
+				</div>
+			</div>
+		</div>
+		<div id=noteCors>
+			<b>Note about CORS:</b>
+			<p>
+			It might be the case, that
+			<a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing" target=_blank>Cross Origin Resource Sharing (CORS)</a>
+			prevents access to the content from the given URL.
+			This is especially true, when this HTML Test Client is loaded from a local file.
+			<p>
+			As the AJAX request is executed anyway, the resulting delay is useable and valid.
+			Use the network inspection of your browser (Shift F5, Network Analysis) to verify or even measure this.
 		</div>
 	</body>
 </html>
