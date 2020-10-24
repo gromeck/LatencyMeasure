@@ -33,10 +33,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	this->setCentralWidget(mainWidget);
 
 	this->setFixedSize(300,340);
-	label = new QLabel("Latency to add [ms]:");
-	latency = new QLineEdit("0");
-	latency->setMaxLength(5);
-	latency->setInputMask("00000");
+	latencyLabel = new QLabel("Latency to add [ms]:");
+	latencyLabel->setFixedHeight(30);
+	latencyInput = new QLineEdit("0");
+	latencyInput->setMaxLength(5);
+	latencyInput->setInputMask("00000");
 
 	toggleButton = new QPushButton("Toggle sensor areas background");
 	connect(toggleButton,SIGNAL(clicked()),this,SLOT(clickedToggleButton()));
@@ -44,17 +45,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	triggerButton = new QPushButton("Place mouse cursor here!");
 	connect(triggerButton,SIGNAL(clicked()),this,SLOT(clickedTriggerButton()));
 
-	sensorarea = new QLabel("Place sensor here!");
-	sensorarea->setFixedSize(180,180);
-	sensorarea->setStyleSheet(toggle ? STYLE_RED_ON_WHITE : STYLE_RED_ON_BLACK);
-	sensorarea->setAlignment(Qt::AlignTop);
+	sensorArea = new QLabel("Place sensor here!");
+	//sensorArea->setFixedSize(180,180);
+	sensorArea->setStyleSheet(toggle ? STYLE_RED_ON_WHITE : STYLE_RED_ON_BLACK);
+	sensorArea->setAlignment(Qt::AlignTop);
 
 	layout = new QVBoxLayout();
-	layout->addWidget(label);
-	layout->addWidget(latency);
+	layout->addWidget(latencyLabel);
+	layout->addWidget(latencyInput);
 	layout->addWidget(toggleButton);
 	layout->addWidget(triggerButton);
-	layout->addWidget(sensorarea);
+	layout->addWidget(sensorArea);
 
 	mainWidget->setLayout(layout);
 
@@ -70,25 +71,25 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 void MainWindow::clickedToggleButton()
 {
 	toggle = !toggle;
-	sensorarea->setStyleSheet(toggle ? STYLE_RED_ON_WHITE : STYLE_RED_ON_BLACK);
+	sensorArea->setStyleSheet(toggle ? STYLE_RED_ON_WHITE : STYLE_RED_ON_BLACK);
 }
 
 void MainWindow::clickedTriggerButton()
 {
-	int timeout = latency->text().toInt();
-	latency->setText(QString::number(timeout));
+	int timeout = latencyInput->text().toInt();
+	latencyInput->setText(QString::number(timeout));
 	timerBlack->start(timeout);
 }
 
 void MainWindow::timeoutTimerRise()
 {
-	sensorarea->setStyleSheet(!toggle ? STYLE_RED_ON_WHITE : STYLE_RED_ON_BLACK);
+	sensorArea->setStyleSheet(!toggle ? STYLE_RED_ON_WHITE : STYLE_RED_ON_BLACK);
 	timerWhite->start(500);
 }
 
 void  MainWindow::timeoutTimerFall()
 {
-	sensorarea->setStyleSheet(toggle ? STYLE_RED_ON_WHITE : STYLE_RED_ON_BLACK);
+	sensorArea->setStyleSheet(toggle ? STYLE_RED_ON_WHITE : STYLE_RED_ON_BLACK);
 }
 
 MainWindow::~MainWindow()

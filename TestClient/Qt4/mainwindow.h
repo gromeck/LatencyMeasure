@@ -55,11 +55,11 @@ class MainWindow: public QMainWindow {
 	private:
 		QWidget *mainWidget;
 		QVBoxLayout *layout;
-		QLabel *label;
-		QLineEdit *latency;
+		QLabel *latencyLabel;
+		QLineEdit *latencyInput;
 		QPushButton *toggleButton;
 		QPushButton *triggerButton;
-		QLabel *sensorarea;
+		QLabel *sensorArea;
 		QTimer *timerBlack,*timerWhite;
 		bool toggle;
 
