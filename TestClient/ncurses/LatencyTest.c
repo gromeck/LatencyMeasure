@@ -24,7 +24,7 @@
 #include <string.h>
 #include <ncurses.h>
 
-#define __TITLE__	"LatencyTest with ncurses"
+#define __TITLE__	"ncurses TestClient for LatencyTest"
 
 #define WIN_HEIGHT		22
 #define WIN_WIDTH		60
