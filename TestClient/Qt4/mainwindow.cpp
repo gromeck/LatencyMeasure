@@ -25,11 +25,14 @@
 #include <unistd.h>
 #include "mainwindow.h"
 
+#define __TITLE__	"Qt4 TestClient for LatencyMeasure"
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {	
 	toggle = false;
 
 	mainWidget = new QWidget();
+	this->setWindowTitle(__TITLE__);
 	this->setCentralWidget(mainWidget);
 
 	this->setFixedSize(300,340);

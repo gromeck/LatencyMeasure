@@ -24,7 +24,7 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 
-#define USEC_PER_MSEC	1000
+#define __TITLE__	"GTK+ TestClient for LatencyMeasure"
 
 static int toggle = FALSE;
 
@@ -73,7 +73,7 @@ static void openMainWindow(GtkApplication* app,gpointer user_data)
 	gdk_rgba_parse(&colorWhite,"white");
 
 	window = gtk_application_window_new(app);
-	gtk_window_set_title(GTK_WINDOW(window),"LatencyTest");
+	gtk_window_set_title(GTK_WINDOW(window),__TITLE__);
 	gtk_window_set_default_size(GTK_WINDOW(window),300,340);
 	gtk_window_set_resizable(GTK_WINDOW(window),FALSE);
 
