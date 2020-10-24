@@ -36,8 +36,6 @@
 #include <QLayout>
 #include <QTimer>
 
-#define USEC_PER_MSEC	1000
-
 #define STYLE_RED_ON_BLACK	"background-color:black;color:red;"
 #define STYLE_RED_ON_WHITE	"background-color:white;color:red;"
 
