@@ -79,11 +79,21 @@ This directory includes different test client supporting different setups like
  
    ![Screenshot-TestClient-ncurses](TestClient/ncurses/Screenshot.png)
    
+ - a [graphical application](TestClient/GTK+3/) based on [GTK+-3](https://www.gtk.io/) written in C.
+ 
+   ![Screenshot-TestClient-GTK+3](TestClient/GTK+3/Screenshot.png)
+
+ - a [graphical application](TestClient/FLTK/) based on [FLTK](https://www.fltk.org/) written in C++.
+ 
+   ![Screenshot-TestClient-Qt4](TestClient/FLTK/Screenshot.png)
+
  - a [graphical application](TestClient/Qt4/) based on [Qt](https://www.qt.io/) written in C++.
  
    ![Screenshot-TestClient-Qt4](TestClient/Qt4/Screenshot.png)
 
 All test clients support the same functionality.
+
+NOTE: the Test Clients in ncurses and FLTK can be build in statically, which makes it easy to use them on systems without the necessary libraries.
 
 ### [Case](Case/)
 
