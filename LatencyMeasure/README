@@ -15,6 +15,15 @@ PIN  IRQ  IRQ#
  1    3   INT3
  7    4   INT6
 
+Build the SW including the current GIT version
+==============================================
+
+ - create platform.local.txt
+   in your Arduino installation environment
+      try: ~/Arduino/arduino/hardware/arduino/avr
+
+recipe.hooks.sketch.prebuild.1.pattern={build.source.path}/make-git-version.sh "{build.source.path}" "{build.path}"
+
 
 Reset to Bootloader
 ===================
