@@ -64,7 +64,7 @@
 #endif
 
 #define DISPLAY_MIDDOT        0x07
-#define DISPLAY_SYMBAD       0x22
+#define DISPLAY_SYMBAD        0x22
 
 
 void display_init(void);
