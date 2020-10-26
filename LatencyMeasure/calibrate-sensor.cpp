@@ -28,7 +28,13 @@
 
 void calibrate_sensor(void)
 {
-  display_set_content("Place sensor over\ndark and bright areas");
+  int uref;
+  int uin;
+  int uin_min = ANALOG2VOLTS(ANALOG_RESOLUTION);
+  int uin_max = 0;
+  int uref_opt;
+
+  display_set_content("Place sensor over\nsensor area");
   display_menu("MENU", "OK");
 
   if (button_wait() == 0)
@@ -41,23 +47,29 @@ void calibrate_sensor(void)
        read the state and the voltage from the IO pins
     */
     short state = (digitalRead(PIN_IN_TRIGGER) == LOW);
-    int uin = analogRead(PIN_IN_ANALOG_UIN);
-    int uref = analogRead(PIN_IN_ANALOG_UREF);
+    uref = analogRead(PIN_IN_ANALOG_UREF);
+    uin = analogRead(PIN_IN_ANALOG_UIN);
 
-    DbgMsg("pin=%d  state=%d  uin=%d  uref=%d", digitalRead(PIN_IN_TRIGGER), state, uin, uref);
+    /*
+       compute the optimal Uref
+    */
+    if (uin < uin_min)
+      uin_min = uin;
+    if (uin > uin_max)
+      uin_max = uin;
+    uref_opt = (uin_min + uin_max) / 2;
+
+    DbgMsg("pin=%d  state=%d  Uin(min/max)=%d(%d/%d)  Uref(opt)=%d(%d)", digitalRead(PIN_IN_TRIGGER), state, uin, uin_min, uin_max, uref, uref_opt);
 
     /*
        show the current values to let the user calibrate the device Uref
     */
-    int uin_x00 = ANALOG2VOLTS(uin);
-    int uin_0xx = (ANALOG2VOLTS(uin) - uin_x00) * 100;
-    int uref_x00 = ANALOG2VOLTS(uref);
-    int uref_0xx = (ANALOG2VOLTS(uref) - uref_x00) * 100;
-
-    display_set_content("Uin =%1d.%02dV\nUref=%1d.%02dV   %s",
-                        uin_x00, uin_0xx,
-                        uref_x00, uref_0xx,
+    display_set_content("Uref=%4dmV \033 %4dmV\nUin =%4dmV  %s",
+                        ANALOG2VOLTS(uref),
+                        ANALOG2VOLTS(uref_opt),
+                        ANALOG2VOLTS(uin),
                         (state) ? "BRIGHT" : "DARK");
+
     display_flush();
   } while (button_state(NULL) < 0);
 }
