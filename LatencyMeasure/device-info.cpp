@@ -36,8 +36,8 @@
 #include "git-version.h"
 
 static const char *_device_info[] = {
-    "Device:\n" DEVICE_TYPE,
-    "SW-Version:\n" GIT_VERSION,
+    //"Device: " DEVICE_TYPE,
+    "SW-Version: " GIT_VERSION,
     "Visit " GITHUB_URL
 };
 #define DEVICE_INFO_ITEMS   (sizeof(_device_info) / sizeof(char *))
