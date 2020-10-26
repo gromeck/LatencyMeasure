@@ -82,11 +82,6 @@
 #define MAX_LATENCY  5000
 
 /*
-   convert the measured value on an analog pin to volts
-*/
-#define ANALOG2VOLTS(u)   ((float) (u) * 3.3 / 1024.0)
-
-/*
    system includes
 */
 #include <Arduino.h>
