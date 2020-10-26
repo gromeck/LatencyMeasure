@@ -29,6 +29,13 @@
 
 #if FEATURE_CALIBRATE_SENSOR
 
+/*
+   convert the measured value on an analog pin to milli volts
+*/
+#define MAX_VOLTAGE            3300
+#define ANALOG_RESOLUTION      1024
+#define ANALOG2VOLTS(u)        ((int) ((float) (u) / (ANALOG_RESOLUTION - 1) * MAX_VOLTAGE))
+
 void calibrate_sensor(void);
 
 #endif
