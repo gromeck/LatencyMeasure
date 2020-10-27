@@ -1,6 +1,6 @@
 #!/bin/bash
 
-make clean \
-&& qmake LatencyTest.pro \
+make clean
+qmake LatencyTest.pro \
 && qmake \
 && make
