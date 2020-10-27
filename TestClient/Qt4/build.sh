@@ -1,6 +1,8 @@
 #!/bin/bash
 
+QMAKE=qmake-qt4
+
 make clean
-qmake LatencyTest.pro \
-&& qmake \
+$QMAKE LatencyTest.pro \
+&& $QMAKE \
 && make
