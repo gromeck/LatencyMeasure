@@ -30,7 +30,10 @@ fi
 CFLAGS="$CFLAGS -g -fno-strict-aliasing -fPIC -Wall"
 CFLAGS="$CFLAGS -D_GNU_SOURCE"
 CFLAGS="$CFLAGS "
-LIBS="$LIBS -lfltk -lXinerama -lXcursor -lxkbcommon -lXfixes -lXft -lX11-xcb -lfontconfig -lexpat -lfreetype -lpng16 -lXrender -lXext -lX11 -lxcb -lXau -lXdmcp -lm -ldl -lz -luuid -lpthread -pthread"
+LIBS="$LIBS -lfltk"
+if test "$STATIC_ENABLED" = yes; then
+	LIBS="$LIBS -lXinerama -lXcursor -lxkbcommon -lXfixes -lXft -lX11-xcb -lfontconfig -lexpat -lfreetype -lpng16 -lXrender -lXext -lX11 -lxcb -lXau -lXdmcp -lm -ldl -lz -luuid -lpthread -pthread"
+fi
 
 #
 #	find all Makefiles
