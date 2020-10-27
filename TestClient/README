@@ -1,4 +1,11 @@
 This directory contains the different test clients for LatencyMeasure.
 
-Note: ncurses and FLTK test clients are capable to be build statically,
-which is also the default for these.
+Note: ncurses and FLTK test clients are capable to be build statically.
+
+To build dynamically:
+
+	./build.sh
+
+To build statically:
+
+	./build.sh --enable-static

@@ -4,6 +4,6 @@ aclocal \
 && autoheader \
 && automake --gnu --add-missing --copy \
 && autoconf \
-&& ./configure --enable-static \
+&& ./configure $* \
 && make clean \
 && make
