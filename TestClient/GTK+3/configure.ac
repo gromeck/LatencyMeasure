@@ -27,7 +27,7 @@ if test "$STATIC_ENABLED" = yes; then
 	PKGCONFIG_FLAGS="--static"
 	CFLAGS="$CFLAGS --static"
 fi
-CFLAGS="$CFLAGS -g -fno-strict-aliasing -fPIC -Wall"
+CFLAGS="$CFLAGS -g -fno-strict-aliasing -fPIC -Wall -Wno-deprecated-declarations"
 CFLAGS="$CFLAGS -D_GNU_SOURCE"
 CFLAGS="$CFLAGS $( pkg-config gtk+-3.0 $PKGCONFIG_FLAGS --cflags )"
 LIBS="$LIBS $( pkg-config gtk+-3.0 $PKGCONFIG_FLAGS --libs )"
