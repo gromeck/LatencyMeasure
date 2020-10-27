@@ -36,6 +36,8 @@
 #define ANALOG_RESOLUTION      1024
 #define ANALOG2VOLTS(u)        ((int) ((float) (u) / (ANALOG_RESOLUTION - 1) * MAX_VOLTAGE))
 
+#define MAX_CALIBRATION_DELTA  (MAX_VOLTAGE / 100)
+
 void calibrate_sensor(void);
 
 #endif
