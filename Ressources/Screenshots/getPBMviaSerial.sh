@@ -75,9 +75,9 @@ echo "Data written to file @ $TMPFILE ..."
 #	set a filename -- count up a postfix on duplicate
 #
 TITLE=$( grep "^# TITLE" $TMPFILE | sed -e "s/# TITLE //" )
-PAGE=$( echo $TITLE | sed -e "s/^.*, //" | sed -e "s/\/.*$//" | sed -e "s/#//" )
+PAGE=$( echo $TITLE | sed -e "s/^.*, //" | sed -e "s/\/.*$//" | sed -e "s/#//" | tr -d "[:space:]" )
 TITLE=$( echo $TITLE | sed -e "s/,.*$//" | tr -s " " | tr " " "-" )
-[ $PAGE != "" ] && TITLE="$TITLE-$PAGE"
+[ "$PAGE" != "" ] && TITLE="$TITLE-$PAGE"
 NR=0 
 while : ; do
 	if [ $NR = 0 ]; then
@@ -89,7 +89,6 @@ while : ; do
 	[ ! -f $OUTPUT ] && break;
 	NR=$(( $NR + 1 ))
 done
-
 
 #
 #	convert and colorize the file
