@@ -42,10 +42,10 @@ This is the sketch for the micro controller. Use the [ArduinoIDE](https://www.ar
 Here are some screenshots from the OLED of the device in use.
 
 <div style="float:left;">
-<img src="Ressources/Screenshots/Screenshot-OLED-Menu-1.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-MENU-1.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Measurement-1.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Measurement-2.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-OLED-Menu-2.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-MENU-2.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Configure-1.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Configure-2.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Configure-3.png" height="64px">
@@ -53,18 +53,20 @@ Here are some screenshots from the OLED of the device in use.
 <img src="Ressources/Screenshots/Screenshot-OLED-Configure-5.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Configure-6.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Configure-7.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-OLED-Menu-3.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-MENU-3.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Test-Timing-1.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Test-Timing-2.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-OLED-Menu-4.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-MENU-4.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Calibrate-Sensor-1.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Calibrate-Sensor-2.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Calibrate-Sensor-3.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-OLED-Menu-5.png" height="64px">
+<img src="Ressources/Screenshots/Screenshot-OLED-MENU-5.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Device-Info-1.png" height="64px">
 <img src="Ressources/Screenshots/Screenshot-OLED-Device-Info-2.png" height="64px">
-<img src="Ressources/Screenshots/Screenshot-OLED-Device-Info-3.png" height="64px">
 </div>
+
+
+
 
 As a special feature, one pin of the micro controller is used to trigger a screenshot of the OLED. The display is then transfered as a [Portable BitMap file](https://en.wikipedia.org/wiki/Netpbm#File_formats) over the serial connection. There is also a script in the repository to post-process these as colorized PNG files.
 
