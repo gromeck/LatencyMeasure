@@ -56,7 +56,7 @@ void measurement_measure(void)
     /*
        loop over the measure series
     */
-    for (int pass = 0; pass < _config.measure_series && button_state(NULL) < 0; pass++) {
+    for (int pass = 0; pass < _config.measure_series; pass++) {
       char msg[CHARS_PER_LINE + 1];
       unsigned long latency;
 
