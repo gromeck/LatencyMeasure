@@ -60,11 +60,9 @@ void calibrate_sensor(void)
       uin_max = uin;
 
     /*
-     * empiric test showed that not the arithmetic middle gives the best
-     * results, but the following term
+     * compute the optimal Uref and the actual delta
      */
-    uref_opt = uin_min + (uin_max - uin_min) * 8 / 10;
-
+    uref_opt = CALIBRATION_UREF_OPT(uin_min,uin_max);
     uref_delta = uref - uref_opt;
 
     DbgMsg("pin=%d  state=%d  Uin(min/max)=%d(%d/%d)  Uref(opt)=%d(%d)", digitalRead(PIN_IN_TRIGGER), state, uin, uin_min, uin_max, uref, uref_opt);
@@ -75,7 +73,7 @@ void calibrate_sensor(void)
     display_set_content("Uref=%4dmV %c%2dmV %s\nUin =%4dmV  %s",
                         uref,
                         (uref_delta > 0) ? '-' : '+',abs(uref_delta),
-                        (abs(uref_delta) < MAX_CALIBRATION_DELTA) ? "OK" : "",
+                        (abs(uref_delta) < CALIBRATION_MAX_DELTA) ? "OK" : "",
                         uin,
                         (state) ? "BRIGHT" : "DARK");
 
