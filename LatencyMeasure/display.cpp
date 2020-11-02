@@ -161,16 +161,15 @@ void display_set_footer(const char *fmt, ...)
 void display_flush(void)
 {
   _display.clearDisplay();
+  _display.setTextSize(1);
 
   /*
      header
   */
   if (_header[0]) {
     _display.fillRect(0, 0, SCREEN_WIDTH, CHAR_HEIGHT, SSD1306_WHITE);
-    _display.setTextSize(1);
     _display.setTextColor(SSD1306_BLACK);
-    _display.setCursor(1, 0);
-    _display.print("\007 ");
+    _display.setCursor(CHAR_WIDTH,0);
     _display.print(_header);
 
     /*
@@ -188,7 +187,6 @@ void display_flush(void)
      NOTE: text without linebreaks is centered
   */
   if (_content[0]) {
-    _display.setTextSize(1);
     if (strchr(_content, '\n') || strlen(_content) >= CHARS_PER_LINE)
       _display.setCursor(0, 1 * CHAR_HEIGHT);
     else
@@ -201,7 +199,6 @@ void display_flush(void)
      footer
   */
   if (_footer[0]) {
-    _display.setTextSize(1);
     _display.setTextColor(SSD1306_WHITE);
     _display.setCursor(0, 3 * CHAR_HEIGHT);
     _display.println(_footer);
