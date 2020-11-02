@@ -28,6 +28,8 @@ CONFIG _config;
 
 #if FEATURE_CONFIG_MENU
 
+#define MAX_CONFIG_OPTIONS  5
+
 typedef struct {
   const char *_name;
   const int value;
@@ -36,7 +38,7 @@ typedef struct {
 typedef struct {
   const char *_name;
   int *confref;
-  CONFIG_OPTIONS options[5];
+  CONFIG_OPTIONS options[MAX_CONFIG_OPTIONS];
 } CONFIG_MENU;
 
 static CONFIG_MENU _config_menu[] = {
@@ -48,7 +50,7 @@ static CONFIG_MENU _config_menu[] = {
       { "10", 10 },
       { "25", 25 },
       { "50", 50 },
-      { NULL, 0 }
+      { "100", 100 },
     }
   },
   {
@@ -164,7 +166,7 @@ void config_menu(void)
       const char *option_name = NULL;
       int value = *cm->confref;
 
-      for (option_idx = 0; cm->options[option_idx]._name; option_idx++) {
+      for (option_idx = 0; cm->options[option_idx]._name && option_idx < MAX_CONFIG_OPTIONS; option_idx++) {
         if (value == cm->options[option_idx].value) {
           option_name = cm->options[option_idx]._name;
           break;
@@ -207,7 +209,8 @@ void config_menu(void)
           /*
           ** get the next config option for the current item
           */
-          if (!cm->options[++option_idx]._name)
+          ++option_idx;
+          if (!cm->options[option_idx]._name || option_idx >= MAX_CONFIG_OPTIONS)
             option_idx = 0;
 
           /*
