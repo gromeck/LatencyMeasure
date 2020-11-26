@@ -34,6 +34,8 @@ PREFIX="Screenshot-OLED-"
 TMPFILE=/tmp/screenshot.pbm
 FG_ORIGINAL=white
 FG_RECOLORED=cyan
+BG_RECOLORED=black
+BORDER=4
 RESIZE_PCT=100%
 
 
@@ -94,7 +96,12 @@ done
 #	convert and colorize the file
 #
 echo "Post-processing $TMPFILE to $OUTPUT ..."
-convert $TMPFILE -fill $FG_RECOLORED -opaque $FG_ORIGINAL -resize $RESIZE_PCT $OUTPUT
-
+convert $TMPFILE \
+	-fill $FG_RECOLORED \
+	-opaque $FG_ORIGINAL \
+	-resize $RESIZE_PCT \
+	-bordercolor $BG_RECOLORED \
+	-border $BORDER \
+	$OUTPUT
 
 exit 0
